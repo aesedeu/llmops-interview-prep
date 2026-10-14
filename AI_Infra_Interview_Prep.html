@@ -1,0 +1,592 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>AI Infra Interview Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F3F5F3; --surface:#FFFFFF; --sunk:#E9EDEB; --ink:#1A2026; --muted:#586370; --line:#D8DEDC;
+  --accent:#B25E08; --accent-soft:#F6E7D4; --know:#1D6B64; --know-soft:#D9EEEA; --again:#A8322D; --again-soft:#F7DEDB;
+  --code-bg:#EEF1EF; --shadow:0 1px 2px rgba(20,30,30,.06),0 4px 14px rgba(20,30,30,.05);
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#111518; --surface:#181D21; --sunk:#1F262B; --ink:#E4E8E9; --muted:#9AA5AC; --line:#2B3338;
+    --accent:#E8A04A; --accent-soft:#3A2A17; --know:#5CC0B5; --know-soft:#16322F; --again:#EC7B73; --again-soft:#3A1E1C;
+    --code-bg:#1C2328; --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#111518; --surface:#181D21; --sunk:#1F262B; --ink:#E4E8E9; --muted:#9AA5AC; --line:#2B3338;
+  --accent:#E8A04A; --accent-soft:#3A2A17; --know:#5CC0B5; --know-soft:#16322F; --again:#EC7B73; --again-soft:#3A1E1C;
+  --code-bg:#1C2328; --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}.side{display:none}}
+
+/* header */
+.top{max-width:1180px;margin:0 auto;padding-block:40px 20px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.05;margin:.3em 0 .35em;text-wrap:balance;letter-spacing:-.01em}
+.lede{max-width:68ch;color:var(--muted);margin:0}
+.stats{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:18px;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.stats b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden;margin-top:10px;max-width:520px;display:flex}
+.bar i{display:block;height:100%}
+.bar .k{background:var(--know)} .bar .a{background:var(--again)}
+
+/* toolbar */
+.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:10px 16px}
+.tools-in{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tools input[type=search]{flex:1 1 220px;min-width:0;font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button,.btn{font:inherit;font-size:13px;padding:7px 11px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.btn{border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.btn:hover,.seg button:hover{background:var(--sunk)}
+.seg button[aria-pressed=true]:hover{background:var(--ink)}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* side */
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px);align-self:start;max-height:calc(100vh - 90px);overflow:auto;padding-top:24px}
+.side a{display:flex;justify-content:space-between;gap:8px;text-decoration:none;color:var(--muted);font-size:13.5px;padding:5px 8px;border-radius:6px;line-height:1.35}
+.side a:hover{background:var(--sunk);color:var(--ink)}
+.side a .n{font-family:var(--f-mono);font-size:11.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.side a.done .n{color:var(--know)}
+
+/* blocks */
+main{min-width:0;padding-top:24px}
+.block{margin-bottom:52px;scroll-margin-top:80px}
+.block h2{font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1.15;margin:0 0 6px;text-wrap:balance;display:flex;gap:12px;align-items:baseline}
+.block h2 .num{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600}
+.intro{color:var(--muted);max-width:72ch;margin:0 0 16px}
+.qa{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
+.qa.m-know{border-left:3px solid var(--know)} .qa.m-again{border-left:3px solid var(--again)}
+.qa summary{list-style:none;cursor:pointer;padding:12px 16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:baseline}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .q{font-weight:600;line-height:1.4}
+.lvl{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px;white-space:nowrap;border:1px solid var(--line);color:var(--muted)}
+.lvl.l2{color:var(--accent);border-color:var(--accent)}
+.lvl.l3{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.qa[open] summary{border-bottom:1px solid var(--line)}
+.ans{padding:14px 16px 6px;max-width:80ch}
+.ans p{margin:0 0 10px}
+.ans ul,.ans ol{margin:0 0 10px;padding-left:20px}
+.ans li{margin-bottom:4px}
+.ans code{font-family:var(--f-mono);font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+.ans pre{font-family:var(--f-mono);font-size:12.5px;line-height:1.55;background:var(--code-bg);padding:10px 12px;border-radius:8px;overflow-x:auto;margin:0 0 10px}
+.ans pre code{background:none;padding:0;font-size:inherit}
+.ans .exp{background:var(--accent-soft);border-radius:8px;padding:9px 12px;margin:4px 0 10px;font-size:14px}
+.ans .exp::before{content:"Из практики";display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+.ans .trap{background:var(--again-soft);border-radius:8px;padding:9px 12px;margin:4px 0 10px;font-size:14px}
+.ans .trap::before{content:"Ловушка";display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--again);margin-bottom:2px}
+.marks{display:flex;gap:8px;padding:0 16px 14px}
+.marks button{font:inherit;font-size:12.5px;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.marks button.on-know{background:var(--know-soft);color:var(--know);border-color:var(--know)}
+.marks button.on-again{background:var(--again-soft);color:var(--again);border-color:var(--again)}
+.tbl{overflow-x:auto;margin:0 0 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.tbl table{border-collapse:collapse;width:100%;font-size:13.5px}
+.tbl th,.tbl td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--sunk)}
+.tbl td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl tr:last-child td{border-bottom:0}
+.empty{color:var(--muted);padding:30px 0}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<header class="top">
+  <div class="eyebrow">Интервью · AI/LLM-инфраструктура</div>
+  <h1>Подготовка по LLM-инфраструктуре</h1>
+  <p class="lede">Железо, интерконнект, инференс, квантизация, параллелизм, Kubernetes, обучение, RL, наблюдаемость, системный дизайн и разбор инцидентов. Открывай вопрос, отвечай вслух, потом сверяйся. Отметки «знаю / повторить» сохраняются в этом браузере.</p>
+  <div class="stats" id="stats"></div>
+  <div class="bar" id="bar"><i class="k"></i><i class="a"></i></div>
+</header>
+
+<div class="tools">
+  <div class="tools-in">
+    <input type="search" id="q" placeholder="Поиск: KV cache, NCCL, FP8, NUMA…" aria-label="Поиск по вопросам">
+    <div class="seg" role="group" aria-label="Фильтр">
+      <button id="f-all" aria-pressed="true">Все</button>
+      <button id="f-new" aria-pressed="false">Без отметки</button>
+      <button id="f-again" aria-pressed="false">Повторить</button>
+    </div>
+    <button class="btn" id="rand">Случайный вопрос</button>
+    <button class="btn" id="toggle">Раскрыть все</button>
+    <button class="btn" id="reset">Сбросить отметки</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav class="side" id="side" aria-label="Разделы"></nav>
+  <main id="main"></main>
+</div>
+<script>
+const D=[];
+
+D.push({id:"tactics",title:"Как вести это интервью",intro:"Интервьюер на инфраструктурной секции проверяет три вещи: понимаешь ли ты физику (где узкое место и почему), умеешь ли считать на салфетке, и делал ли ты это руками в проде. Каждый ответ строй так: механизм → цифра → trade-off → как это было у тебя в проекте.",qs:[
+[1,"Расскажи о себе (инфра-версия, 60–90 секунд)",`<p>Инфра-интервьюеру не нужен продуктовый питч. Дай стек снизу вверх и масштаб:</p>
+<p>Шаблон: «Я отвечаю за [что: инференс, обучение, платформу]. Масштаб: [сколько GPU и каких], [какие модели и в какой точности], [сколько пользователей и токенов в сутки], [утилизация и как её меряю]. Что делал руками: [движок и его настройка, топология нод, мониторинг]. Что построил поверх: [gateway, квоты, роутинг]. Параллельно: [fine-tuning, эвалы].»</p>
+<p>Уровень детализации: не «большой кластер», а конкретное число и тип GPU, объём токенов в сутки и утилизация с указанием, какой метрикой она измерена. Цифры, а не общие слова.</p>
+<div class="exp">Сразу назови профиль нагрузки, например соотношение входных и выходных токенов (50:1 — это prefill-heavy нагрузка). Это показывает, что ты понимаешь свою нагрузку, и уводит разговор туда, где ты силён.</div>`],
+[1,"Что делать, если не знаешь ответа",`<p>Не выдумывать. Инфра-люди мгновенно слышат блеф. Рабочая схема: «В проде я с этим не работал, но рассуждал бы так…», дальше от первых принципов: где память, где compute, где сеть, что будет узким местом. Рассуждение от физики на незнакомой теме ценится выше заученного термина.</p>
+<div class="trap">Если прод-опыт в одной области (например, инференс), а спрашивают про другую (большое распределённое обучение: сотни GPU, PP, отказоустойчивость), честно скажи, где у тебя опыт, а где ты знаешь механику. Это нормальная позиция.</div>`],
+[1,"Какие цифры о своём кластере надо знать наизусть",`<ul>
+<li>Сколько нод, GPU на ноду, модель GPU (SXM или PCIe), есть ли NVSwitch или NVLink-бриджи парами.</li>
+<li>Какая сеть между нодами (Ethernet/RoCE/InfiniBand, скорость).</li>
+<li>Какие модели крутятся, в какой точности, с каким TP и сколькими репликами.</li>
+<li>Какую метрику ты называешь «утилизацией»: nvidia-smi GPU-Util или DCGM SM Active / Tensor Active. Это спросят почти наверняка.</li>
+<li>TTFT и ITL p50/p95 для основной модели, prefix cache hit rate, max concurrency на реплику.</li>
+<li>Объём токенов в сутки и стоимость 1M токенов (с амортизацией железа и без).</li>
+</ul>`],
+]});
+
+D.push({id:"numbers",title:"Числа и формулы на салфетке",intro:"Главный инструмент инфра-инженера. Интервьюер почти наверняка попросит что-то прикинуть в уме: сколько памяти, сколько токенов в секунду, сколько GPU-часов.",
+table:`<div class="tbl"><table><thead><tr><th>GPU</th><th>Память</th><th>HBM BW</th><th>BF16 dense</th><th>FP8 dense</th><th>Scale-up</th><th>TDP</th></tr></thead><tbody>
+<tr><td>A100 SXM</td><td class="num">40/80 GB HBM2e</td><td class="num">~2.0 TB/s</td><td class="num">312 TF</td><td class="num">нет FP8</td><td class="num">NVLink3 600 GB/s</td><td class="num">400 W</td></tr>
+<tr><td>H100 SXM</td><td class="num">80 GB HBM3</td><td class="num">3.35 TB/s</td><td class="num">~989 TF</td><td class="num">~1979 TF</td><td class="num">NVLink4 900 GB/s</td><td class="num">700 W</td></tr>
+<tr><td>H100 PCIe</td><td class="num">80 GB HBM2e</td><td class="num">~2.0 TB/s</td><td class="num">~756 TF</td><td class="num">~1513 TF</td><td class="num">бридж парой 600 GB/s</td><td class="num">350 W</td></tr>
+<tr><td>H200</td><td class="num">141 GB HBM3e</td><td class="num">4.8 TB/s</td><td class="num">~989 TF</td><td class="num">~1979 TF</td><td class="num">NVLink4 900 GB/s</td><td class="num">700 W</td></tr>
+<tr><td>B200</td><td class="num">~180–192 GB HBM3e</td><td class="num">~8 TB/s</td><td class="num">~2.2 PF</td><td class="num">~4.5 PF (+FP4)</td><td class="num">NVLink5 1.8 TB/s</td><td class="num">~1000 W</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>Что считаем</th><th>Формула</th></tr></thead><tbody>
+<tr><td>Веса модели</td><td class="num">N × bytes (BF16=2, FP8=1, INT4≈0.5)</td></tr>
+<tr><td>KV cache на токен</td><td class="num">2 × layers × kv_heads × head_dim × bytes</td></tr>
+<tr><td>FLOPs инференса</td><td class="num">≈ 2N на токен (+ attention)</td></tr>
+<tr><td>FLOPs обучения</td><td class="num">≈ 6 × N × D</td></tr>
+<tr><td>Память обучения (Adam, mixed)</td><td class="num">≈ 16 байт/параметр + активации</td></tr>
+<tr><td>Потолок decode, batch=1</td><td class="num">tok/s ≈ HBM BW / байты весов</td></tr>
+<tr><td>Ridge point H100 (BF16)</td><td class="num">989e12 / 3.35e12 ≈ 295 FLOP/byte</td></tr>
+<tr><td>Ring all-reduce трафик</td><td class="num">2(n−1)/n × размер на GPU</td></tr>
+<tr><td>PP bubble</td><td class="num">(p−1)/(m+p−1)</td></tr>
+</tbody></table></div>`,
+qs:[
+[1,"Сколько памяти нужно, чтобы поднять 70B модель в инференсе?",`<p>Веса: 70B × 2 байта = <b>140 GB</b> в BF16, 70 GB в FP8, ~35–40 GB в INT4 (с учётом скейлов).</p>
+<p>Сверху KV cache, активации, CUDA graphs, workspace. В BF16 минимум 2×H100 (160 GB), но места под KV почти нет, поэтому на практике TP=4. В FP8 модель влезает в одну H100, но под KV остаётся ~5 GB, это бесполезно для конкурентности, поэтому TP=2.</p>
+<p>Правило: после весов на KV должно оставаться не меньше 30–50% памяти, иначе реплика не держит батч.</p>`],
+[2,"Посчитай размер KV cache на токен для Llama-3-70B",`<p>80 слоёв, 8 KV-голов (GQA), head_dim 128, BF16:</p>
+<pre><code>2 × 80 × 8 × 128 × 2 байта = 327 680 байт ≈ 320 KB/токен</code></pre>
+<p>Одна последовательность на 8k токенов = ~2.6 GB. На 32k = ~10.5 GB. Если на KV осталось 100 GB, это ~38 последовательностей по 8k одновременно.</p>
+<p>Без GQA (64 KV-головы) было бы в 8 раз больше, ~2.6 MB/токен. Поэтому GQA, MQA и MLA критичны для инференса. FP8 KV cache даёт ещё ×2.</p>
+<p>Для Llama-3-8B: 2×32×8×128×2 = 128 KB/токен.</p>`],
+[2,"Какой теоретический потолок скорости генерации у 70B FP8 на TP=2 H100?",`<p>Decode при малом батче упирается в пропускную способность памяти: на каждый токен нужно прочитать все веса.</p>
+<pre><code>веса: 70 GB, суммарный BW: 2 × 3.35 = 6.7 TB/s
+время на токен ≈ 70 / 6700 ≈ 10.4 ms → потолок ~96 tok/s на поток</code></pre>
+<p>На практике достигается 60–75% от пика BW плюс накладные на all-reduce TP, так что реально 55–70 tok/s. При росте батча веса читаются один раз на весь батч, поэтому суммарный throughput растёт почти линейно, пока не упрёшься в compute или в чтение KV cache.</p>`],
+[2,"Почему decode memory-bound, а prefill compute-bound? Объясни через arithmetic intensity",`<p>Arithmetic intensity = FLOPs / байты из памяти. На один параметр в BF16 приходится 2 FLOPs (умножение и сложение) и 2 байта чтения.</p>
+<ul>
+<li><b>Decode, batch=1:</b> ~1 FLOP/byte. Ridge point H100 ~295. Мы в 300 раз ниже, тензорные ядра простаивают, ждём HBM.</li>
+<li><b>Decode, batch=B:</b> веса читаются один раз на B токенов, интенсивность ~B. Чтобы выйти в compute-bound, нужен батч порядка сотен. Но KV cache для каждого запроса свой, его чтение с батчем не амортизируется, поэтому attention в decode остаётся memory-bound всегда.</li>
+<li><b>Prefill:</b> обрабатываем тысячи токенов промпта одной матрицей, интенсивность ~длина промпта, это compute-bound.</li>
+</ul>
+<p>Вывод для инфры: decode оптимизируют батчингом, квантизацией весов и KV, спекулятивным декодингом. Prefill оптимизируют FP8-compute, кэшированием префиксов, chunked prefill.</p>
+<div class="exp">Пример: 20B входных токенов в день против 0.4B выходных. Основной объём работы — prefill, то есть compute. Для такой нагрузки prefix caching важнее спекулятивного декодинга.</div>`],
+[2,"Сколько GPU-часов нужно, чтобы обучить 7B модель на 1T токенов?",`<pre><code>FLOPs = 6 × 7e9 × 1e12 = 4.2e22
+H100 BF16 пик 989 TF, MFU 40% → ~396 TF/s эффективно
+4.2e22 / 3.96e14 ≈ 1.06e8 GPU·сек ≈ 29 500 GPU-часов
+На 256 GPU ≈ 115 часов ≈ 5 дней</code></pre>
+<p>Проговори допущения: MFU 35–50% реалистично для хорошо настроенного обучения на H100, attention на длинных контекстах добавляет FLOPs сверх 6ND, плюс простои на падениях и чекпоинтах (закладывай 10–20%).</p>`],
+[2,"Сколько памяти нужно для full fine-tuning 7B модели с Adam?",`<p>Mixed precision с Adam, на параметр:</p>
+<ul><li>BF16 веса: 2 байта</li><li>BF16 градиенты: 2 байта</li><li>FP32 master weights: 4 байта</li><li>Adam m и v в FP32: 8 байт</li></ul>
+<p>Итого ~16 байт/параметр → 7B × 16 = <b>112 GB</b> без активаций. На одну H100 не влезает. Варианты: ZeRO-3/FSDP на 8 GPU (14 GB/GPU под состояния), 8-bit Adam, LoRA (обучаемых параметров <1%, базовые веса только 2 байта, ~14 GB), QLoRA (база в NF4, ~4–5 GB).</p>
+<p>Активации растут с batch × seq_len × hidden × layers, режутся activation checkpointing.</p>`],
+[3,"Нагрузка 20B вход + 0.4B выход в сутки. Сколько это в секунду и что это значит для кластера?",`<pre><code>вход: 20e9 / 86400 ≈ 231k tok/s в среднем
+выход: 0.4e9 / 86400 ≈ 4.6k tok/s в среднем
+в прайм-тайм пик обычно в 2–3 раза выше среднего</code></pre>
+<p>231k tok/s prefill на 48 H100 — это ~4.8k tok/s prefill на карту в среднем, при том что H100 на 30B-модели может переварить десятки тысяч токенов prefill в секунду. Значит, либо большая доля этого объёма попадает в prefix cache и не пересчитывается, либо узкое место в decode-конкурентности и памяти под KV, а не в compute prefill.</p>
+<div class="exp">Будь готов ответить, какой prefix cache hit rate на твоей нагрузке. При агентских флоу с повторяющимся контекстом он обычно 50–90%, и это главный множитель экономики.</div>`],
+[2,"Как быстро загрузится 140 GB весов при старте пода?",`<p>Зависит от источника:</p>
+<ul><li>S3/объектное хранилище через сеть 10–25 Gbit/s: 1–2 GB/s → 70–140 секунд.</li><li>Локальный NVMe: 3–7 GB/s → 20–45 секунд.</li><li>Page cache (веса уже в RAM): ещё быстрее, упирается в PCIe H2D ~25–50 GB/s.</li></ul>
+<p>Плюс инициализация движка, профилирование памяти, захват CUDA graphs, это ещё 30–120 секунд. Cold start реплики большой модели занимает минуты, поэтому автоскейлинг «с нуля по запросу» для LLM плохо работает. Решения: кэш весов на локальных NVMe нод, pre-pull образов, стриминг весов (Run:ai Model Streamer в vLLM), держать минимальное число тёплых реплик.</p>`],
+]});
+
+D.push({id:"gpu",title:"GPU: архитектура и железо",intro:"Спросят, как устроен GPU внутри, почему одни операции быстрые, а другие нет, чем отличаются поколения, и как делить GPU между задачами.",qs:[
+[1,"Как устроен H100 внутри? Иерархия памяти",`<ul>
+<li><b>132 SM</b> (SXM). В каждом: тензорные ядра 4-го поколения, CUDA-ядра, регистровый файл (256 KB/SM), shared memory + L1 до 256 KB/SM.</li>
+<li><b>L2 cache</b> 50 MB, общий.</li>
+<li><b>HBM3</b> 80 GB, 3.35 TB/s.</li>
+<li>Потоки исполняются варпами по 32, варпы группируются в блоки, блоки распределяются по SM.</li>
+</ul>
+<p>Скорость падает на порядок на каждом уровне: регистры → shared memory (~десятки TB/s суммарно) → L2 → HBM → PCIe/NVLink. Вся оптимизация ядер (FlashAttention, fused kernels) сводится к тому, чтобы реже ходить в HBM и больше считать в SRAM.</p>`],
+[2,"Что нового в Hopper по сравнению с Ampere, что важно для LLM?",`<ul>
+<li><b>FP8 тензорные ядра</b> (E4M3, E5M2) и Transformer Engine: вдвое больше FLOPs и вдвое меньше памяти против BF16.</li>
+<li><b>TMA</b> (Tensor Memory Accelerator): асинхронное копирование тайлов HBM→shared memory без участия потоков.</li>
+<li><b>WGMMA</b>: асинхронные матричные операции на уровне warpgroup.</li>
+<li><b>Thread block clusters</b> и distributed shared memory между SM.</li>
+<li>NVLink4 900 GB/s, HBM3 3.35 TB/s (у A100 ~2 TB/s).</li>
+</ul>
+<p>FlashAttention-3 написан именно под эти фичи и даёт на H100 заметно больше, чем FA2.</p>`],
+[1,"SXM против PCIe версии H100: в чём разница для инференса?",`<ul>
+<li><b>SXM</b>: 700 W, HBM3 3.35 TB/s, в HGX-платах соединены через NVSwitch (8 GPU all-to-all по 900 GB/s) или напрямую NVLink в 4-GPU платах.</li>
+<li><b>PCIe</b>: 350 W, HBM2e ~2 TB/s, 114 SM. NVLink только через бриджи парами (600 GB/s), остальной обмен идёт через PCIe Gen5 (~64 GB/s в одну сторону) и, если GPU на разных сокетах, через межсокетную шину CPU.</li>
+</ul>
+<p>Для инференса следствия: decode на PCIe медленнее на ~40% из-за BW памяти; TP больше 2 на PCIe дорог, потому что all-reduce идёт через PCIe/UPI.</p>
+<div class="exp">Знай, какие у тебя ноды. Если это PCIe-карты с NVLink-бриджами парами, TP=2 должен сидеть на связанной бриджем паре, привязанной к своему NUMA-узлу.</div>`],
+[2,"Что такое MIG, MPS и time-slicing? Когда что использовать",`<ul>
+<li><b>MIG</b> (Multi-Instance GPU): аппаратное деление H100 до 7 инстансов (профили 1g.10gb … 7g.80gb) с изоляцией SM, памяти и L2. Предсказуемая производительность, изоляция ошибок. Минус: фиксированные профили, нет NVLink между инстансами.</li>
+<li><b>MPS</b>: несколько процессов отправляют ядра в один контекст GPU одновременно. Хорошая утилизация, но нет изоляции памяти и ошибок: падение одного клиента может уронить остальных.</li>
+<li><b>Time-slicing</b>: GPU по очереди переключается между процессами. Никакой изоляции памяти, переключения контекста, для прода LLM плохо.</li>
+</ul>
+<p>Для LLM: MIG удобен под маленькие модели (эмбеддинги, реранкеры, guardrail-классификаторы, dev-окружения). Большие модели занимают GPU целиком.</p>
+<div class="exp">Хороший ход: guardrail-модели gateway (PII, prompt injection) и эмбеддеры можно сажать на MIG-слайсы, а не держать под них целые H100.</div>`],
+[2,"Почему «GPU-Util 100%» в nvidia-smi ничего не говорит об эффективности?",`<p>GPU-Util в nvidia-smi — доля времени, когда на GPU исполнялось хотя бы одно ядро. Одно ядро на одном SM из 132 даёт 100%.</p>
+<p>Правильные метрики из DCGM (профилировочные):</p>
+<ul><li><code>DCGM_FI_PROF_SM_ACTIVE</code> — доля SM с активными варпами.</li><li><code>DCGM_FI_PROF_SM_OCCUPANCY</code> — заполненность SM варпами.</li><li><code>DCGM_FI_PROF_PIPE_TENSOR_ACTIVE</code> — загрузка тензорных ядер.</li><li><code>DCGM_FI_PROF_DRAM_ACTIVE</code> — загрузка HBM. Для decode это главная метрика.</li></ul>
+<div class="trap">Если твоя «утилизация» — это nvidia-smi, скажи честно и добавь, что для decode правильнее смотреть DRAM Active, а для prefill Tensor Active. Если это DCGM, это сильный результат.</div>`],
+[2,"Троттлинг, энергопотребление, power capping",`<p>H100 SXM потребляет до 700 W. При перегреве или упоре в power limit частоты снижаются. Проверка: <code>nvidia-smi -q -d PERFORMANCE</code> (clocks throttle reasons: SW Power Cap, HW Slowdown, Thermal).</p>
+<p>Power capping (<code>nvidia-smi -pl</code>) — рабочий инструмент: decode упирается в память, а не в частоту SM, поэтому ограничение мощности на 20–30% часто стоит лишь нескольких процентов throughput. Для compute-bound обучения потеря заметнее. Это рычаг для датацентров, ограниченных по электричеству.</p>`],
+[3,"Что такое XID-ошибки? Какие критичны",`<p>XID — коды ошибок драйвера NVIDIA в <code>dmesg</code>/логах ядра. Часть указывает на приложение, часть на железо.</p>
+<ul><li><b>13, 31, 43</b>: чаще всего ошибка приложения (illegal memory access, MMU fault).</li><li><b>48</b>: double-bit ECC — некорректируемая ошибка памяти.</li><li><b>63, 64</b>: row remapping (событие / сбой ремапа).</li><li><b>74</b>: ошибка NVLink.</li><li><b>79</b>: GPU «упал с шины» — нода на вывод и в RMA.</li><li><b>94, 95</b>: contained / uncontained ECC.</li><li><b>119, 120</b>: ошибки GSP-прошивки.</li></ul>
+<p>В проде: DCGM exporter отдаёт XID в метрики, алерт на аппаратные коды, автоматический cordon/drain ноды, диагностика через <code>dcgmi diag -r 3</code>.</p>`],
+[2,"Что такое ECC и row remapping на HBM",`<p>HBM защищена ECC: однобитные ошибки исправляются молча (SBE), двухбитные (DBE) — нет, процесс падает. На A100/H100 при деградации строк памяти включается row remapping: плохая строка подменяется резервной. Ремап применяется после перезагрузки GPU (reset). Если резервные строки кончились, GPU надо менять.</p>
+<p>Мониторинг: <code>nvidia-smi -q -d ROW_REMAPPER</code>, метрики DCGM по ECC и remapped rows. Рост SBE — предвестник проблем.</p>`],
+[1,"Как посчитать, влезет ли модель в GPU с учётом всего, что ест память",`<p>Бюджет памяти GPU в vLLM:</p>
+<ol><li>Веса модели.</li><li>Пиковые активации при прогоне профилирования (зависит от <code>max_num_batched_tokens</code>).</li><li>CUDA graphs (сотни MB — пара GB).</li><li>Контекст CUDA, NCCL-буферы, ~1–3 GB.</li><li>Всё, что осталось в пределах <code>gpu_memory_utilization</code> (по умолчанию 0.9), уходит под KV cache.</li></ol>
+<p>vLLM пишет в лог, сколько блоков KV получилось и какую максимальную конкурентность при max_model_len это даёт. Это первое, на что смотреть после запуска.</p>`],
+]});
+
+D.push({id:"interconnect",title:"Интерконнект, топология, NUMA",intro:"Частый источник проблем с производительностью на реальных кластерах. Интервьюер будет копать, как диагностировать и что именно менять.",qs:[
+[1,"Как посмотреть топологию GPU на ноде и что значат обозначения",`<pre><code>nvidia-smi topo -m</code></pre>
+<p>Матрица связей между GPU, NIC и CPU:</p>
+<ul><li><b>NV#</b> — NVLink, # связей. Лучше всего.</li><li><b>PIX</b> — через один PCIe-свитч.</li><li><b>PXB</b> — через несколько PCIe-свитчей, без root complex.</li><li><b>PHB</b> — через PCIe host bridge (root complex CPU).</li><li><b>NODE</b> — внутри одного NUMA-узла, через интерконнект между root complex.</li><li><b>SYS</b> — через межсокетную шину (UPI / Infinity Fabric). Хуже всего.</li></ul>
+<p>Там же видна CPU affinity и NUMA affinity каждого GPU. Ещё полезно: <code>nvidia-smi nvlink -s</code>, <code>lstopo</code>, <code>numactl -H</code>.</p>`],
+[2,"Кейс: на части нод производительность хуже из-за NVLink и NUMA. Что не так и как исправить?",`<p>Структура разбора (если был похожий опыт, подставь свои детали):</p>
+<ol><li><b>Симптом:</b> на части нод throughput или latency хуже, чем на других, при одинаковой конфигурации модели; или TP=2/TP=4 давал меньше ожидаемого.</li><li><b>Диагностика:</b> <code>nvidia-smi topo -m</code> показал, что GPU внутри TP-группы соединены через SYS/PHB, а не NV#; процессы и память хоста сидели на чужом NUMA-узле; NCCL выбирал медленный путь (видно в <code>NCCL_DEBUG=INFO</code>).</li><li><b>Исправление:</b> TP-группы собраны только из GPU, связанных NVLink; CPU и память процесса прибиты к NUMA-узлу своих GPU (<code>numactl --cpunodebind --membind</code> или Topology Manager в k8s); проверка через <code>nccl-tests all_reduce_perf</code>.</li><li><b>Результат:</b> цифра: busbw all-reduce до/после, ITL или throughput до/после.</li></ol>
+<div class="trap">Будь готов к вопросу «а как Kubernetes гарантирует, что под получит GPU из одной NVLink-пары и CPU с того же NUMA?». Ответ в блоке Kubernetes: Topology Manager, CPU Manager static, device plugin с topology hints, либо DRA.</div>`],
+[2,"Что такое NVLink и NVSwitch, чем отличается от PCIe",`<ul><li><b>PCIe Gen5 x16</b>: ~64 GB/s в каждую сторону. Общий для GPU, NIC, NVMe, идёт через CPU root complex.</li><li><b>NVLink4</b> (H100): 18 линков по ~50 GB/s = 900 GB/s суммарно на GPU. Прямая связь GPU-GPU.</li><li><b>NVSwitch</b>: свитч, который даёт all-to-all между 8 GPU в HGX на полной скорости NVLink. Без него каждый GPU связан только с соседями.</li><li><b>NVL72</b> (GB200): 72 GPU в одном NVLink-домене, TP/EP через всю стойку.</li></ul>
+<p>Для LLM: tensor parallelism требует all-reduce на каждом слое, поэтому TP держат внутри NVLink-домена. Между нодами используют PP, DP или EP.</p>`],
+[2,"Что такое GPUDirect RDMA и GPUDirect Storage",`<p><b>GPUDirect RDMA</b>: сетевая карта (IB или RoCE) читает и пишет память GPU напрямую, без копии через память хоста и без CPU. Нужен модуль <code>nvidia-peermem</code> или dma-buf, и GPU с NIC желательно под одним PCIe-свитчем (PIX). Критично для multi-node обучения и для передачи KV cache в disaggregated serving.</p>
+<p><b>GPUDirect Storage</b>: DMA с NVMe или сетевого хранилища прямо в GPU. Ускоряет загрузку данных и чекпоинтов.</p>
+<p>Проверка, что NCCL реально использует GDR: в <code>NCCL_DEBUG=INFO</code> должно быть <code>GDRDMA</code>, а не копирование через хост.</p>`],
+[2,"InfiniBand против RoCE. Что такое rail-optimized топология",`<ul><li><b>InfiniBand</b> (NDR 400 Gb/s на порт): нативно lossless, credit-based flow control, низкая латентность, adaptive routing, SHARP (in-network reduction). Дорого, свой стек.</li><li><b>RoCEv2</b>: RDMA поверх Ethernet. Дешевле и привычнее, но требует lossless-настройки: PFC, ECN, DCQCN. Без неё при конгестии падает производительность коллективов.</li></ul>
+<p>Типичная AI-нода: 8 GPU и 8 NIC по 400G, по одной на GPU. <b>Rail-optimized</b>: GPU №i каждой ноды подключён к leaf-свитчу №i («рельс»). Трафик между одноимёнными GPU разных нод идёт через один свитч, что хорошо ложится на коллективы NCCL.</p>`],
+[2,"Как работает ring all-reduce и сколько он стоит",`<p>Два этапа: reduce-scatter и all-gather, каждый n−1 шагов. Каждый GPU отправляет и получает <code>2(n−1)/n × S</code>, где S — размер тензора. При больших n это ~2S на GPU независимо от числа GPU, поэтому ring bandwidth-оптимален. Латентность растёт линейно с n, поэтому для малых сообщений и больших кластеров NCCL использует tree или NVLS (NVLink SHARP на NVSwitch).</p>
+<p>В <code>nccl-tests</code> две метрики: algbw = S / время, busbw = algbw × 2(n−1)/n. busbw сравнивают с пиком линка: ~370–390 GB/s на 8×H100 через NVSwitch — нормально.</p>`],
+[3,"Какие переменные NCCL используешь для диагностики",`<ul><li><code>NCCL_DEBUG=INFO</code>, <code>NCCL_DEBUG_SUBSYS=INIT,NET,GRAPH</code> — какой транспорт и топологию выбрал NCCL.</li><li><code>NCCL_TOPO_DUMP_FILE</code> — дамп обнаруженной топологии.</li><li><code>NCCL_SOCKET_IFNAME</code>, <code>NCCL_IB_HCA</code> — какие интерфейсы и HCA использовать.</li><li><code>NCCL_P2P_LEVEL</code>, <code>NCCL_P2P_DISABLE</code>, <code>NCCL_SHM_DISABLE</code> — управление путями внутри ноды.</li><li><code>NCCL_NET_GDR_LEVEL</code> — когда использовать GPUDirect RDMA.</li><li><code>NCCL_ALGO</code>, <code>NCCL_PROTO</code> — форсировать алгоритм для экспериментов.</li></ul>
+<div class="trap">Классическая проблема: включённые IOMMU или PCIe ACS блокируют P2P между GPU, и трафик идёт через хост. Видно по низкому busbw и по логам NCCL.</div>`],
+[2,"Почему NUMA важен для GPU-инференса, если считает GPU?",`<ul><li>Копирование хост↔GPU (загрузка весов, pinned-буферы, KV offload на CPU) через чужой NUMA-узел идёт через UPI: меньше пропускная способность, выше латентность.</li><li>CPU-часть движка (токенизация, детокенизация, планировщик батчей, HTTP-сервер) работает на ядрах. При удалённой памяти и скачущих между сокетами потоках растёт джиттер ITL.</li><li>Прерывания NIC и GPU лучше обрабатывать на ядрах того же узла.</li></ul>
+<p>В vLLM планировщик и API-сервер на CPU при высоком QPS становятся узким местом, поэтому в V1 они разнесены по процессам. Прибивка к NUMA-узлу своих GPU убирает часть хвостов латентности.</p>`],
+]});
+D.push({id:"inference",title:"Оптимизация инференса LLM",intro:"Ядро интервью. Нужно уметь объяснить каждую технику через то, какое узкое место она снимает и когда она вредит.",qs:[
+[1,"Какие метрики латентности и пропускной способности важны для LLM-сервиса?",`<ul><li><b>TTFT</b> (time to first token): очередь + prefill. Ощущение «отзывчивости».</li><li><b>TPOT / ITL</b> (time per output token / inter-token latency): скорость стриминга, определяется decode-шагом.</li><li><b>E2E latency</b> = TTFT + TPOT × (число токенов − 1).</li><li><b>Throughput</b>: выходные токены/с на реплику или на GPU, запросы/с.</li><li><b>Goodput</b>: throughput только тех запросов, что уложились в SLO по TTFT и ITL. Правильная целевая метрика: можно поднять throughput большим батчем и развалить SLO.</li></ul>
+<p>Смотреть всегда p50/p95/p99, а не среднее.</p>`],
+[1,"Что такое continuous batching и зачем он нужен",`<p>Статический батчинг ждёт, пока закончатся все последовательности в батче; короткие ответы простаивают, пока генерируется самый длинный. Continuous (iteration-level) batching, идея из Orca, пересобирает батч на каждом шаге decode: закончившиеся запросы выходят, новые входят сразу.</p>
+<p>Эффект: throughput выше в разы при той же латентности, GPU не простаивает. Это база всех современных движков: vLLM, SGLang, TensorRT-LLM (in-flight batching).</p>`],
+[2,"Как работает PagedAttention",`<p>Проблема: KV cache растёт по мере генерации, заранее длина неизвестна. Если резервировать непрерывный кусок под max_len, 60–80% памяти теряется на фрагментацию и резерв.</p>
+<p>PagedAttention делит KV на блоки фиксированного размера (обычно 16 токенов), как страницы в ОС. У каждой последовательности есть block table: логический блок → физический. Память выделяется по блоку по мере роста, потери меньше одного блока на последовательность.</p>
+<p>Побочные плюсы: общие блоки можно шарить между последовательностями через copy-on-write (общий префикс, parallel sampling, beam search). На этом построен prefix caching.</p>`],
+[2,"Prefix caching: как работает и где даёт максимум",`<p>KV блоки хэшируются по содержимому токенов и всему префиксу до них. Если новый запрос начинается с того же префикса (системный промпт, история диалога, общий документ), готовые блоки переиспользуются и prefill для них не считается. В vLLM это Automatic Prefix Caching, в SGLang RadixAttention (радикс-дерево префиксов). Вытеснение по LRU.</p>
+<p>Максимум даёт на: длинные системные промпты, многоходовые диалоги, агентские циклы (каждый шаг агента повторяет весь предыдущий контекст), RAG с повторяющимися документами, few-shot.</p>
+<p>Условие на уровне инфры: запросы одной сессии должны попадать на ту же реплику, иначе кэш холодный. Для этого нужен prefix-aware или session-affinity роутинг.</p>
+<div class="exp">Агентские системы повторяют контекст на каждом шаге, поэтому у них соотношение входа к выходу легко доходит до 50:1 и выше. Если рассказываешь свой кейс, назови hit rate и сколько prefill сэкономлено.</div>`],
+[2,"Chunked prefill: какую проблему решает",`<p>Длинный prefill (например 30k токенов) занимает GPU на сотни миллисекунд, и все decode-запросы в батче в это время стоят. Пользователи видят «заикание» стриминга, ITL p99 взлетает.</p>
+<p>Chunked prefill режет prefill на куски (бюджет задаётся <code>max_num_batched_tokens</code>) и смешивает их в одном шаге с decode-токенами. Шаг ограничен по токенам, decode продолжается равномерно.</p>
+<p>Trade-off: маленький бюджет — ровный ITL, но растёт TTFT длинных промптов; большой бюджет — наоборот. В vLLM V1 chunked prefill включён по умолчанию.</p>`],
+[2,"Спекулятивный декодинг: как работает и когда он вреден",`<p>Дешёвый механизм предлагает k токенов вперёд, большая модель проверяет их за один forward (как prefill на k токенах) и принимает префикс совпадающих. Выход распределён точно так же, как у большой модели, качество не меняется.</p>
+<p>Источники черновика: маленькая draft-модель того же семейства, n-gram / prompt lookup (хорошо для правки кода и RAG, где ответ копирует вход), Medusa-головы, <b>EAGLE-1/2/3</b> (лёгкая голова на hidden states целевой модели), <b>MTP</b> (multi-token prediction слои, встроенные в DeepSeek-V3, GLM-4.5 и др.).</p>
+<p>Работает, потому что decode memory-bound и лишний compute на проверку почти бесплатен. <b>Вредит при большом батче</b>: GPU уже compute-bound, отклонённые токены — выброшенные FLOPs. Ключевая метрика — acceptance rate / средняя длина принятия.</p>
+<div class="trap">Для нагрузки с малым числом выходных токенов и высокой конкурентностью выигрыш от спекулятивного декодинга ограничен. Честно так и скажи — это показывает понимание, а не заученную технику.</div>`],
+[2,"FlashAttention: в чём идея",`<p>Обычный attention материализует матрицу N×N в HBM и читает её несколько раз: memory-bound и O(N²) по памяти. FlashAttention считает attention тайлами в shared memory, использует online softmax (running max и сумма), и никогда не пишет полную матрицу в HBM. FLOPs те же, обращений к памяти в разы меньше, память O(N).</p>
+<p>FA2 улучшил распараллеливание, FA3 использует возможности Hopper (WGMMA, TMA, асинхронность, FP8) и выжимает ~70%+ пика H100. Для инференса есть отдельные decode-ядра (FlashDecoding, split-KV по длине), FlashInfer, FlashMLA.</p>`],
+[2,"GQA, MQA, MLA: зачем и как влияют на инфраструктуру",`<ul><li><b>MHA</b>: у каждой головы свои K и V. Самый большой KV cache.</li><li><b>MQA</b>: одни K и V на все головы. KV меньше в число голов раз, качество немного хуже.</li><li><b>GQA</b>: группы голов делят K и V (Llama-3-70B: 64 query-головы, 8 KV). Компромисс, стандарт сегодня.</li><li><b>MLA</b> (DeepSeek-V2/V3): K и V сжимаются в низкоразмерный латентный вектор, KV cache ещё в несколько раз меньше, чем у GQA.</li></ul>
+<p>Для инфры: меньше KV → больше конкурентность на GPU → выше throughput. Нюанс: при TP число KV-голов ограничивает TP (8 KV-голов при TP=16 придётся дублировать).</p>`],
+[2,"CUDA graphs: зачем они в инференсе",`<p>Decode-шаг при малом батче — сотни мелких ядер по несколько микросекунд. Накладные на запуск каждого ядра с CPU (~5–10 мкс) становятся сравнимы с вычислением. CUDA graph записывает всю последовательность ядер один раз и потом запускает её одной командой.</p>
+<p>vLLM захватывает графы для набора размеров батча при старте (это время и память). <code>--enforce-eager</code> отключает графы: полезно для отладки, в проде стоит 10–30% скорости decode на малых батчах.</p>`],
+[3,"Disaggregated prefill/decode: что это и когда оно нужно",`<p>Prefill compute-bound, decode memory-bound. На одной реплике они мешают друг другу: длинный prefill портит ITL, большой decode-батч задерживает TTFT. Disaggregation разносит их на разные пулы GPU: prefill-воркеры считают KV и передают его decode-воркерам по RDMA/NVLink (NIXL в NVIDIA Dynamo, LMCache, Mooncake).</p>
+<p>Плюсы: независимое масштабирование пулов под разные SLO, разные настройки параллелизма (prefill — больше TP, decode — больше DP), отсутствие интерференции.</p>
+<p>Минусы: передача KV (сотни MB на длинный промпт) требует быстрой сети; сложность эксплуатации; при коротких промптах выгоды мало.</p>
+<div class="exp">Prefill-heavy нагрузка с длинными контекстами — кандидат на disaggregation, но сначала надо выжать prefix caching и KV-aware роутинг, они дешевле. Хороший ответ на «что дальше при росте нагрузки в разы».</div>`],
+[3,"KV cache offloading и многоуровневый кэш",`<p>HBM ограничена, а переиспользуемых префиксов много. Решение — иерархия: GPU HBM → CPU DRAM → локальный NVMe → распределённое хранилище. Вытесненные KV-блоки не выбрасываются, а уходят ниже и возвращаются при повторном префиксе. Загрузка KV из DRAM по PCIe часто быстрее, чем пересчёт prefill для длинного контекста.</p>
+<p>Инструменты: LMCache (интеграция с vLLM через KV connector), встроенный CPU offload, Mooncake store, KV-кэш в Dynamo. Для мультирепличного сервиса кэш можно шарить между репликами.</p>`],
+[2,"MoE-модели: что меняется для инференса",`<p>MoE: в каждом слое много экспертов (FFN), роутер активирует k из них на токен. Память — по всем параметрам (все эксперты должны лежать в GPU), compute — только по активным. Пример: 355B всего, ~32B активных.</p>
+<ul><li>Decode при малом батче дешёвый по compute, но веса читаются разрозненно.</li><li>При большом батче активируются почти все эксперты, нужна вся память.</li><li><b>Expert parallelism</b>: эксперты раскладываются по GPU, токены отправляются к ним через all-to-all. Нужен баланс нагрузки между экспертами (горячие эксперты = straggler).</li><li>Схема для больших MoE: DP для attention + EP для экспертов (как у DeepSeek), ядра DeepEP для all-to-all.</li></ul>
+<div class="exp">Типичный вопрос: как разложить MoE-модель (например, GLM) по 4-GPU нодам — TP, EP или их комбинация, и почему.</div>`],
+[2,"Что происходит, когда кончается KV cache",`<p>Планировщик не может выделить блоки под растущие последовательности. vLLM вытесняет (preempt) часть запросов: в V1 их KV выбрасывается и потом пересчитывается (recompute), раньше был и вариант swap в CPU. Вытесненные запросы ждут, латентность растёт, часть работы сделана зря.</p>
+<p>Метрики: <code>num_preemptions</code>, <code>kv_cache_usage_perc</code> близко к 100%, растущий <code>num_requests_waiting</code>. Лечение: снизить <code>max_num_seqs</code>, FP8 KV cache, уменьшить <code>max_model_len</code>, увеличить TP (больше памяти на реплику), добавить реплики.</p>`],
+[1,"Как сервить много LoRA-адаптеров на одной базе",`<p>Multi-LoRA serving (S-LoRA, Punica): одна копия базовой модели, адаптеры подгружаются в GPU/CPU-кэш, в одном батче могут быть запросы к разным адаптерам. Специальные ядра (SGMV/BGMV) применяют разные LoRA к разным строкам батча.</p>
+<p>В vLLM: <code>--enable-lora --max-loras --max-lora-rank --max-cpu-loras</code>. Trade-off: небольшой оверхед на ядра против экономии целой реплики на каждый fine-tune. Альтернатива для одного адаптера под высокую нагрузку — слить его в веса.</p>
+`],
+]});
+
+D.push({id:"quant",title:"Квантизация",intro:"Спросят, какую точность ты выбрал для своих моделей, почему, и как проверял, что качество не упало.",qs:[
+[1,"Какие форматы квантизации бывают и чем отличаются",`<ul><li><b>W8A8 FP8</b> (E4M3): веса и активации в FP8, считается на FP8 тензорных ядрах Hopper. ~2× compute и ½ памяти против BF16, почти без потери качества. Дефолт для H100.</li><li><b>W8A8 INT8</b> (SmoothQuant): для Ampere, где нет FP8. Выбросы активаций «переносятся» в веса масштабированием.</li><li><b>W4A16</b> (GPTQ, AWQ): веса в 4 бита, вычисления в 16. ¼ памяти весов, ускоряет memory-bound decode при малом батче. Ядра Marlin.</li><li><b>FP4</b>: NVFP4 (блоки по 16, скейл FP8) и MXFP4 (блоки по 32, скейл E8M0). Нативно только на Blackwell. На H100 FP4-тензорных ядер нет.</li><li><b>KV cache FP8</b>: отдельно от весов, удваивает ёмкость KV.</li></ul>`],
+[2,"GPTQ против AWQ",`<p><b>GPTQ</b>: послойная квантизация, минимизирующая ошибку выхода слоя; использует приближение второго порядка (Гессиан по калибровочным данным), квантует колонки по очереди и компенсирует ошибку в оставшихся.</p>
+<p><b>AWQ</b>: наблюдение, что ~1% «важных» каналов весов (с большими активациями) определяет качество. Эти каналы масштабируются перед квантизацией, чтобы защитить их. Быстрее калибруется, меньше переобучается на калибровочный набор.</p>
+<p>Оба дают W4A16 с потерей обычно в пределах 1–2 п.п. на бенчмарках, но на коде, математике и длинных рассуждениях падение бывает заметнее.</p>`],
+[2,"Когда W4A16 хуже FP8, хотя весит меньше?",`<p>При большом батче. W4A16 экономит чтение весов, но перед умножением веса нужно деквантовать в 16 бит, а само умножение идёт на BF16-ядрах. Когда батч большой и мы compute-bound, выигрыш по памяти пропадает, а деквантизация и BF16-compute проигрывают FP8-ядрам, которые дают вдвое больше FLOPs.</p>
+<p>Правило для H100: высокая конкурентность → FP8 (W8A8). Мало пользователей, большая модель, нужна минимальная латентность или модель иначе не влезает → W4A16. Можно комбинировать: W4A8 и FP8 KV.</p>`],
+[2,"Как проверять качество после квантизации",`<ul><li>Перплексия на своих данных — быстрый санити-чек, но её недостаточно.</li><li>Задачные эвалы на своих доменах: код (pass@1 на внутренних задачах), tool calling (доля валидных вызовов), RAG-ответы, длинный контекст (needle-in-haystack).</li><li>Side-by-side с BF16 на реальных промптах из логов gateway.</li><li>Проверка длинной генерации: квантизация чаще ломает длинные цепочки рассуждений, чем короткие ответы.</li><li>A/B в проде с явным фидбеком.</li></ul>
+<div class="exp">Если в gateway есть фидбек после сессии и A/B-роутинг, это готовая инфраструктура для онлайн-оценки квантованных версий.</div>`],
+[3,"Скейлы в FP8: per-tensor, per-channel, per-token, block-wise",`<p>FP8 E4M3 имеет узкий диапазон (±448), поэтому нужны масштабы.</p>
+<ul><li><b>Per-tensor</b>: один скейл на тензор. Просто, но выбросы портят точность.</li><li><b>Per-channel</b> (веса) и <b>per-token</b> (активации): скейл на строку или столбец. Точнее, чуть дороже.</li><li><b>Block-wise</b> (например 128×128 у DeepSeek-V3): скейл на блок. Хорошо держит выбросы, используется и в обучении.</li><li><b>Статические</b> скейлы активаций (из калибровки) против <b>динамических</b> (считаются на лету): динамические точнее, статические быстрее.</li></ul>
+<p>Инструменты: llm-compressor (vLLM), NVIDIA ModelOpt, AutoAWQ, GPTQModel.</p>`],
+]});
+
+D.push({id:"parallel-inf",title:"Параллелизм в инференсе",intro:"Как раскладывать модель по GPU. Спросят, почему у тебя именно такие TP и число реплик.",qs:[
+[1,"Tensor, pipeline, data, expert parallelism — чем отличаются",`<ul><li><b>TP</b>: каждый слой режется по GPU (матрицы по колонкам и строкам, Megatron-стиль). Два all-reduce на слой. Снижает латентность и память весов на GPU. Требует NVLink.</li><li><b>PP</b>: слои делятся на стадии по GPU/нодам. Коммуникация только активациями между стадиями, мало трафика. Латентность одного запроса не падает, растёт throughput при микробатчах. Подходит для межнодового разбиения.</li><li><b>DP</b>: независимые реплики модели. Линейное масштабирование throughput, никакой коммуникации.</li><li><b>EP</b>: эксперты MoE по GPU, all-to-all для токенов.</li></ul>`],
+[2,"Как выбрать TP для модели? Алгоритм",`<ol><li>Минимальный TP, при котором веса влезают и остаётся достаточно памяти под KV для нужной конкурентности и контекста.</li><li>TP не выходит за NVLink-домен (на 4-GPU ноде максимум 4, на PCIe с бриджами разумно 2).</li><li>Число KV-голов должно делиться на TP.</li><li>Дальше масштабируемся репликами (DP), а не ростом TP: DP масштабируется линейно, у TP есть накладные на all-reduce.</li><li>TP повышают, если нужна меньшая латентность на токен ценой throughput на GPU.</li></ol>
+<p>Пример: 32B в FP8 (~32 GB) на H100 → TP=1 при умеренном контексте, 4 реплики на ноду. Если контексты длинные (32k+) и нужна конкурентность → TP=2, 2 реплики на ноду.</p>`],
+[2,"Почему TP=8 на 8 GPU не в 8 раз быстрее TP=1",`<ul><li>Два all-reduce на каждый слой, их латентность не параллелится и растёт с TP.</li><li>При TP=8 матрицы на каждой GPU маленькие, тензорные ядра хуже загружены, особенно в decode.</li><li>Непараллелизуемые части: embedding, sampling, CPU-планировщик.</li></ul>
+<p>Поэтому throughput на GPU при TP=8 обычно ниже, чем при 4 репликах TP=2. TP=8 выбирают из-за памяти (модель не влезает иначе) или ради минимальной латентности.</p>`],
+[3,"Как поднять модель, которая не влезает в одну ноду?",`<p>Варианты:</p>
+<ul><li><b>TP внутри ноды + PP между нодами</b>: классика. Межнодовый трафик — только активации на границе стадий.</li><li><b>DP-attention + EP</b> для MoE: attention реплицирован, эксперты распределены по нодам, all-to-all через RDMA. Нужна быстрая сеть.</li><li>Квантизация, чтобы влезть в одну ноду: часто самый дешёвый вариант.</li></ul>
+<p>Оркестрация в Kubernetes: LeaderWorkerSet (группа подов как одна реплика), Ray для multi-node vLLM, gang scheduling, чтобы не получить половину реплики.</p>
+<div class="trap">На 4-GPU нодах без InfiniBand межнодовый TP почти всегда плохая идея. Если спросят, как уложить большую MoE-модель (например, полноразмерный GLM) на такие ноды: квантизация, PP между нодами, EP.</div>`],
+]});
+
+D.push({id:"engines",title:"Движки и vLLM в деталях",intro:"vLLM — самый распространённый open-source движок инференса. Интервьюер проверит, знаешь ли ты его изнутри, а не только флаги запуска.",qs:[
+[1,"vLLM, SGLang, TensorRT-LLM: чем отличаются, когда что выбрать",`<ul><li><b>vLLM</b>: самая широкая поддержка моделей и железа, PagedAttention, большое сообщество, быстро поддерживает новые модели. V1-движок: отдельные процессы для API и движка, chunked prefill и prefix caching по умолчанию. Дефолтный выбор.</li><li><b>SGLang</b>: RadixAttention (дерево префиксов), сильный для агентов и структурированного вывода, быстрый планировщик с низкими накладными, продвинутый DP-attention + EP для DeepSeek-подобных MoE.</li><li><b>TensorRT-LLM</b>: максимальная производительность на NVIDIA, лучшие FP8/FP4 ядра, in-flight batching. Сложнее в эксплуатации, медленнее поддержка новых моделей.</li><li><b>Оркестрация поверх</b>: NVIDIA Dynamo (disaggregation, KV-aware роутинг), llm-d (Kubernetes-нативный, Gateway API Inference Extension), vLLM production-stack, KServe, AIBrix.</li></ul>
+<div class="exp">Будь готов объяснить выбор движка. Аргументы за vLLM: скорость поддержки новых моделей (Qwen, GLM), совместимый OpenAI API, метрики в Prometheus, зрелость в k8s. И что альтернативы пробовали или рассматривали.</div>`],
+[2,"Ключевые параметры vLLM и на что они влияют",`<ul><li><code>--tensor-parallel-size</code>, <code>--pipeline-parallel-size</code>, <code>--data-parallel-size</code>, <code>--enable-expert-parallel</code>.</li><li><code>--gpu-memory-utilization</code> (0.9): доля памяти GPU под vLLM. Остаток после весов уходит в KV.</li><li><code>--max-model-len</code>: максимальный контекст. Меньше → больше последовательностей в KV.</li><li><code>--max-num-seqs</code>: максимум одновременных последовательностей в батче. Throughput против ITL.</li><li><code>--max-num-batched-tokens</code>: бюджет токенов на шаг, размер chunk prefill. TTFT против ITL.</li><li><code>--kv-cache-dtype fp8</code>: удвоение ёмкости KV.</li><li><code>--quantization</code>, <code>--dtype</code>.</li><li><code>--enable-prefix-caching</code> (в V1 включён), <code>--speculative-config</code>.</li><li><code>--enforce-eager</code>: без CUDA graphs, для отладки.</li></ul>`],
+[2,"Какие метрики vLLM ты мониторишь",`<ul><li><code>vllm:num_requests_running</code>, <code>vllm:num_requests_waiting</code> — очередь. Главный сигнал для автоскейлинга.</li><li><code>vllm:kv_cache_usage_perc</code> (раньше gpu_cache_usage_perc) — заполненность KV.</li><li><code>vllm:num_preemptions_total</code> — вытеснения.</li><li><code>vllm:time_to_first_token_seconds</code>, <code>vllm:inter_token_latency_seconds</code> / time_per_output_token, <code>vllm:e2e_request_latency_seconds</code> — гистограммы.</li><li><code>vllm:prompt_tokens_total</code>, <code>vllm:generation_tokens_total</code> — throughput.</li><li>Prefix cache: запросы и попадания (hit rate).</li></ul>
+<p>Плюс DCGM по GPU и метрики gateway по пользователям.</p>`],
+[3,"Как подбирать max-num-seqs и max-num-batched-tokens под свою нагрузку?",`<p>Методика, которую стоит описать:</p>
+<ol><li>Зафиксировать SLO: например TTFT p95 < 2 с, ITL p95 < 60 мс.</li><li>Собрать реалистичный профиль нагрузки из логов gateway: распределение длин входа и выхода, доля повторяющихся префиксов.</li><li>Нагрузочный тест (vLLM benchmark_serving, GuideLLM, genai-perf) с повышением request rate.</li><li>Построить кривые throughput и латентности от конкурентности для нескольких конфигураций.</li><li>Выбрать максимальный throughput, при котором SLO ещё выполняются (goodput), и выставить на gateway лимит конкурентности на реплику чуть ниже.</li></ol>
+<p>Для prefill-heavy нагрузки поднимают <code>max_num_batched_tokens</code> (эффективнее prefill), но следят за ITL.</p>`],
+[2,"Как выкатываешь новую версию модели или движка без даунтайма?",`<ul><li>Образы с зафиксированными версиями vLLM, CUDA, драйвера, прогретые на нодах.</li><li>Новая версия поднимается отдельным деплойментом, прогон smoke-тестов и регрессионных эвалов (качество + нагрузочный тест).</li><li>Gateway переключает трафик постепенно: canary 5% → 25% → 100%, с автоматическим откатом по ошибкам и латентности.</li><li>readiness probe отдаёт OK только после загрузки весов и прогрева. Graceful shutdown: под перестаёт принимать запросы и доживает текущие стримы (preStop + terminationGracePeriodSeconds с запасом на длинные генерации).</li><li>Имя модели в API — алиас в gateway, так клиенты не замечают смену версии.</li></ul>`],
+[2,"Structured output и tool calling в движке",`<p>Guided decoding: на каждом шаге маска логитов запрещает токены, нарушающие JSON Schema, regex или грамматику. Бэкенды: xgrammar (по умолчанию в vLLM), outlines, llguidance. Для tool calling движок парсит вывод модели в формат OpenAI tools через model-specific парсер (<code>--tool-call-parser</code>).</p>
+<p>Инфра-аспекты: компиляция грамматики стоит CPU-время, её кэшируют; ошибки парсера — частая причина «агент сломался» после смены модели.</p>
+<div class="exp">Для агентской платформы это критично. Будь готов рассказать, как вы добились стабильного tool calling на open-weight моделях.</div>`],
+]});
+D.push({id:"k8s",title:"Kubernetes для GPU",intro:"Как GPU попадают в поды, как планировать под топологию, как скейлить LLM и делить кластер между инференсом и обучением.",qs:[
+[1,"Как GPU становится доступен поду? Что делает NVIDIA GPU Operator",`<p>GPU Operator ставит и обновляет всё нужное на нодах как DaemonSet'ы:</p>
+<ul><li><b>Driver</b> (контейнеризованный драйвер или предустановленный).</li><li><b>NVIDIA Container Toolkit</b>: runtime-хук, который пробрасывает устройства и библиотеки драйвера в контейнер.</li><li><b>Device plugin</b>: регистрирует ресурс <code>nvidia.com/gpu</code> в kubelet и выдаёт конкретные GPU подам.</li><li><b>GPU Feature Discovery</b> + Node Feature Discovery: лейблы нод (модель GPU, память, MIG, версия драйвера).</li><li><b>DCGM exporter</b>: метрики GPU в Prometheus.</li><li><b>MIG manager</b>: применяет профили MIG.</li><li>Validator: проверка, что стек рабочий.</li></ul>`],
+[2,"Как гарантировать, что под получит GPU из одной NVLink-группы и CPU с того же NUMA?",`<ul><li><b>CPU Manager</b> с политикой <code>static</code>: под в QoS Guaranteed с целым числом CPU получает эксклюзивные ядра.</li><li><b>Memory Manager</b> (Static): привязка памяти к NUMA.</li><li><b>Topology Manager</b> с политикой <code>single-numa-node</code> или <code>restricted</code>: kubelet собирает topology hints от CPU Manager и device plugin и отказывает в размещении, если ресурсы нельзя выровнять.</li><li>Для NVLink-групп device plugin сам по себе мало что знает. Решения: целые ноды под реплику, <b>DRA</b> (Dynamic Resource Allocation, стабилизирован в Kubernetes 1.34) с драйвером NVIDIA, где можно запрашивать устройства с атрибутами и ограничениями, или свой планировщик/экстендер.</li></ul>
+`],
+[2,"Как автоскейлить LLM-инференс? Почему CPU/GPU-утилизация — плохой сигнал",`<p>GPU-Util почти всегда высокий при любой нагрузке, а CPU нерелевантен. Правильные сигналы: длина очереди (<code>num_requests_waiting</code>), заполненность KV cache, TTFT p95, конкурентные запросы на реплику.</p>
+<ul><li><b>KEDA</b> или HPA с custom metrics через Prometheus adapter по этим метрикам.</li><li>Медленный cold start (минуты) → скейлить заранее: держать запас тёплых реплик, масштабировать по трендам и расписанию (рабочий день).</li><li>Скейл вниз осторожно, с долгим stabilization window, graceful drain стримов.</li><li>На собственном железе вопрос скорее не «сколько реплик», а «как перераспределить фиксированный пул GPU между моделями».</li></ul>
+<div class="exp">Для своего кластера с выраженным дневным пиком естественный ход: днём больше реплик интерактивных моделей, ночью GPU отдаются под батч-джобы, эвалы и fine-tuning.</div>`],
+[2,"Как делить один кластер между инференсом и обучением?",`<ul><li><b>Kueue</b>: очереди и квоты по командам (ClusterQueue, LocalQueue), cohorts для заимствования свободной квоты, preemption по приоритетам, gang admission.</li><li><b>Volcano</b> или Kueue с gang scheduling для распределённого обучения: под-группа стартует целиком или не стартует, иначе дедлок ресурсов.</li><li><b>PriorityClass</b>: интерактивный инференс выше обучения. Обучение вытесняемое, с частыми чекпоинтами.</li><li>Отдельные node pools для инференса и обучения, если сеть разная (обучению нужен InfiniBand, инференсу нет).</li></ul>`],
+[2,"Как бороться с долгим стартом подов с большими моделями?",`<ul><li>Образ без весов, лёгкий, заранее закачан на ноды (pre-pull DaemonSet, либо ленивая загрузка слоёв образа).</li><li>Веса на локальном NVMe ноды (hostPath/local PV) с прогревом, либо общий кэш на быстром сетевом хранилище.</li><li>Формат safetensors с mmap; стриминг весов напрямую в GPU (Run:ai Model Streamer, fastsafetensors).</li><li>Параллельная загрузка шардов при TP.</li><li>startupProbe с запасом, чтобы kubelet не убивал под при загрузке.</li></ul>`],
+[3,"Как запускаешь multi-node инференс в Kubernetes?",`<p>Одна реплика = группа подов на нескольких нодах, которые должны жить и умирать вместе.</p>
+<ul><li><b>LeaderWorkerSet</b> (LWS): leader-под и N worker-подов как одна единица скейлинга, общий жизненный цикл, рестарт группы целиком.</li><li>Внутри vLLM использует Ray или свой multiprocessing с NCCL между нодами.</li><li>Gang scheduling, чтобы не зависнуть с половиной группы.</li><li>hostNetwork или SR-IOV/RDMA-устройства в поде (RDMA shared device plugin, Multus) для быстрой сети.</li></ul>`],
+[2,"Как проверяешь здоровье GPU-нод в кластере?",`<ul><li>DCGM health watches и периодический <code>dcgmi diag</code> (уровень 1 быстро, 3 в окнах обслуживания).</li><li>Алерты по XID, ECC, remapped rows, температуре, throttle reasons, пропавшему GPU (число GPU на ноде меньше ожидаемого).</li><li>NCCL-тесты между нодами после обслуживания.</li><li>Node Problem Detector с кастомными проверками → автоматический taint/cordon и drain.</li><li>Закреплённые версии драйвера, CUDA, прошивок, обновление rolling по нодам.</li></ul>`],
+]});
+
+D.push({id:"gateway",title:"Gateway, роутинг, multi-tenancy",intro:"Gateway — центральная точка LLM-платформы. Здесь спросят и про устройство, и про то, как роутинг влияет на эффективность GPU.",qs:[
+[1,"Из чего состоит LLM-gateway и зачем он нужен",`<ul><li><b>Доступ</b>: SSO, API-ключи с автоматической выдачей и ротацией, RBAC по моделям и командам.</li><li><b>Лимиты</b>: rate limit по запросам и по токенам (RPM, TPM), квоты по командам, приоритеты.</li><li><b>Роутинг</b>: алиасы моделей, выбор реплики, fallback на другую модель, ретраи с backoff, circuit breaker.</li><li><b>Guardrails</b>: входные и выходные фильтры.</li><li><b>Наблюдаемость</b>: токены и стоимость по пользователям и командам (chargeback), латентность, ошибки, аудит-лог.</li><li>Единый OpenAI-совместимый API над всеми движками.</li></ul>
+<p>Примеры: LiteLLM, Envoy AI Gateway, Kong AI Gateway, Portkey, свой на Go/Rust.</p>`],
+[2,"Какие guardrails бывают и где их ставить",`<p>На входе:</p>
+<ul><li>PII-детекция и маскирование (NER-модели, Presidio, регулярки для номеров карт, паспортов, телефонов).</li><li>Prompt injection и jailbreak (классификаторы вроде Llama Prompt Guard, эвристики).</li><li>Секреты и ключи в промптах (детекторы как в gitleaks/trufflehog), чтобы токены и пароли не уходили в логи и модели.</li><li>Индиректная инъекция: фильтрация содержимого документов и результатов инструментов, которые агент подтягивает в контекст.</li><li>Ограничения на размер контекста и тематику.</li></ul>
+<p>На выходе: токсичность и небезопасный контент (Llama Guard и аналоги), утечка PII и секретов, валидация формата (JSON Schema), проверка кода агента перед выполнением.</p>
+<p>Для агентов: песочницы исполнения, allowlist инструментов, запрет пуша в защищённые ветки, human-in-the-loop на опасных действиях, аудит каждого вызова инструмента.</p>
+<p>Инфра-аспект: guardrail-модели добавляют латентность к TTFT, поэтому их делают маленькими, запускают параллельно с основным запросом или асинхронно на выходе.</p>`],
+[2,"Как балансировать нагрузку между репликами LLM? Почему round robin плохо",`<p>Запросы LLM сильно разные по стоимости: 200 токенов против 50k, 10 выходных против 4000. Round robin нагружает реплики неравномерно, а ещё разбрасывает сессии и убивает prefix cache.</p>
+<ul><li><b>Load-aware</b>: least outstanding requests, или по метрикам движка (очередь, заполненность KV).</li><li><b>Prefix/KV-aware</b>: роутер знает, у какой реплики есть кэш для префикса запроса (по хэшам блоков или консистентным хэшированием по session id), и отправляет туда, если реплика не перегружена.</li><li>Реализации: vLLM production-stack router, llm-d (Gateway API Inference Extension с endpoint picker), NVIDIA Dynamo KV router, SGLang router.</li></ul>
+<div class="exp">Если сейчас обычный балансинг, KV-aware роутинг — естественный следующий шаг: для агентских сессий он даёт прямой рост hit rate и падение TTFT.</div>`],
+[2,"Как проверить, что часть запросов можно отправлять на более дешёвые модели?",`<p>Тяжёлые модели — самый дорогой ресурс, а большая доля запросов (например, от не-разработчиков) не требует самой сильной модели. Схема контролируемого эксперимента: часть сессий случайно направляется на более лёгкие модели, после каждой сессии собирается явный фидбек. Сравнивают удовлетворённость и доли негативных оценок между группами и параллельно смотрят разгрузку тяжёлых моделей.</p>
+<p>Дальше: цель — перейти от случайного роутинга к роутингу по сложности запроса (классификатор или learned router в духе RouteLLM) или к каскаду (сначала дешёвая модель, при низкой уверенности — эскалация).</p>
+<div class="trap">Спросят про методику: рандомизация на уровне сессии, а не запроса (иначе пользователь видит скачки); размер выборки; знают ли пользователи, какая модель; как отличаете плохую модель от плохого вопроса. Продумай ответы.</div>`],
+[2,"Как реализовать rate limiting по токенам, если выход заранее неизвестен?",`<ul><li>Входные токены считаются до отправки (токенизатор на gateway или оценка по символам).</li><li>Для выхода резервируется <code>max_tokens</code> из запроса, после ответа резерв корректируется по фактическим токенам из usage.</li><li>Счётчики в Redis с token bucket или sliding window, атомарные операции (Lua).</li><li>Разные лимиты по моделям: токен тяжёлой модели дороже.</li><li>Приоритеты: интерактивные запросы выше батчевых, при перегрузке батч ставится в очередь или получает 429.</li></ul>`],
+[3,"Семантический кэш на gateway: стоит ли?",`<p>Идея: эмбеддинг запроса, поиск похожего в векторной базе, возврат прошлого ответа без вызова модели.</p>
+<p>Риски: ложные совпадения (похожий вопрос с другим смыслом), утечка данных между пользователями, устаревшие ответы, плохо для агентов и диалогов с контекстом. Работает для FAQ-подобных, повторяющихся, не персональных запросов.</p>
+<p>Для большинства внутренних сценариев выгоднее prefix caching на уровне движка: он точный и не меняет ответы.</p>`],
+]});
+
+D.push({id:"training",title:"Распределённое обучение",intro:"На инфраструктурной секции почти точно спросят про обучение: параллелизм, память, коммуникации, отказоустойчивость. Даже если основной опыт — инференс, механику надо знать уверенно.",qs:[
+[1,"DDP, ZeRO и FSDP: в чём разница",`<ul><li><b>DDP</b>: на каждом GPU полная копия модели, градиентов и оптимизатора. После backward all-reduce градиентов, перекрытый с вычислением через бакеты. Просто и быстро, но память 16 байт/параметр на каждом GPU.</li><li><b>ZeRO-1</b>: шардируются состояния оптимизатора.</li><li><b>ZeRO-2</b>: + градиенты (reduce-scatter вместо all-reduce).</li><li><b>ZeRO-3 / FSDP</b>: + сами параметры. Перед forward и backward каждого слоя all-gather его параметров, после — освобождение. Память ~16/N байт на параметр.</li></ul>
+<p>Цена: ZeRO-3 передаёт ~1.5× объёма DDP (all-gather в forward, all-gather в backward, reduce-scatter градиентов). <b>HSDP</b>: шардирование внутри ноды по NVLink, репликация между нодами. FSDP2 в PyTorch шардирует каждый параметр как DTensor.</p>`],
+[2,"Что такое 3D/4D/5D параллелизм",`<ul><li><b>TP</b> внутри ноды (NVLink), обычно 8.</li><li><b>PP</b> между нодами: стадии по слоям.</li><li><b>DP/FSDP</b> снаружи: реплики или шарды.</li><li><b>CP</b> (context parallel, ring attention): последовательность делится между GPU для очень длинных контекстов.</li><li><b>EP</b> для MoE.</li></ul>
+<p>Порядок раскладки определяется требованиями к пропускной способности: самый «болтливый» (TP) на самую быструю связь (NVLink), самый редкий (DP) — на самую медленную. Инструменты: Megatron-LM / Megatron-Core, DeepSpeed, TorchTitan, NeMo.</p>`],
+[2,"Pipeline parallelism: что такое bubble и как его уменьшают",`<p>Стадии ждут друг друга: в начале и конце батча часть GPU простаивает. Доля простоя для GPipe и 1F1B:</p>
+<pre><code>bubble = (p − 1) / (m + p − 1),  p — стадии, m — микробатчи</code></pre>
+<p>При p=8 и m=32 это ~18%. Способы уменьшить: больше микробатчей (упирается в память и global batch), <b>1F1B</b> (чередование forward и backward снижает память активаций), <b>interleaved 1F1B</b> (несколько виртуальных стадий на GPU, bubble делится на их число ценой большего трафика), zero-bubble и DualPipe (DeepSeek) с перекрытием коммуникации и вычислений.</p>`],
+[2,"Activation checkpointing и mixed precision",`<p><b>Activation checkpointing</b>: не хранить активации всех слоёв, а пересчитывать их в backward. Экономит память кратно, стоит ~+33% compute при полном пересчёте. Selective checkpointing пересчитывает только дешёвые, но объёмные части (например attention softmax).</p>
+<p><b>Mixed precision</b>: вычисления в BF16, master weights и состояния оптимизатора в FP32. BF16 имеет диапазон FP32, поэтому loss scaling, нужный для FP16, не требуется. <b>FP8-обучение</b> через Transformer Engine: FP8 для GEMM с отслеживанием amax и масштабов (delayed scaling), остальное в BF16. На Blackwell — MXFP8 с блочными скейлами.</p>`],
+[1,"Что такое MFU и какие значения нормальны",`<p>MFU (Model FLOPs Utilization) = фактические полезные FLOPs модели в секунду / пиковые FLOPs железа. Полезные FLOPs считаются по формуле 6N на токен (без пересчёта активаций, в отличие от HFU).</p>
+<p>Нормально для плотных моделей на H100: 35–50% в BF16. Выше 50% — очень хорошая настройка. Меньше 30% — ищи проблему: коммуникации не перекрываются, маленький микробатч, PP bubble, медленная загрузка данных, stragglers.</p>`],
+[3,"Как обеспечить отказоустойчивость длинного обучения на сотнях GPU?",`<p>На масштабе отказы — норма. В отчёте о Llama 3 за 54 дня на ~16k GPU было 419 непредвиденных прерываний, около 78% из них из-за железа (GPU и HBM на первых местах).</p>
+<ul><li><b>Чекпоинты</b>: шардированные (torch.distributed.checkpoint), асинхронные (запись на локальный NVMe, потом фоновая выгрузка в хранилище), чтобы не останавливать обучение.</li><li><b>Частота</b> по формуле Young/Daly: интервал ≈ √(2 × время_чекпоинта × MTBF).</li><li><b>Быстрое обнаружение</b>: таймауты NCCL, heartbeat, flight recorder PyTorch для зависших коллективов.</li><li><b>Горячий резерв нод</b> и автоматический рестарт с последнего чекпоинта (torchrun elastic, оператор джоба).</li><li><b>Детерминированное возобновление</b> даталоадера с того же места.</li><li>Выявление stragglers: медленная нода тормозит весь синхронный шаг.</li></ul>`],
+[2,"Обучение зависло: NCCL hang. Как диагностируешь?",`<ol><li>Найти, какие ранги застряли и на каком коллективе: PyTorch NCCL flight recorder (<code>TORCH_NCCL_TRACE_BUFFER_SIZE</code>), <code>py-spy dump</code> по процессам.</li><li>Частая причина — рассинхронизация: разные ранги вызывают разные коллективы или в разном порядке (условная логика по рангу, разный размер данных).</li><li>Упал или отстал один ранг: смотреть XID в dmesg, OOM, straggler.</li><li>Сеть: ошибки IB-линков, конгестия RoCE, неправильный интерфейс (<code>NCCL_SOCKET_IFNAME</code>).</li><li>Включить <code>TORCH_NCCL_ASYNC_ERROR_HANDLING</code> и разумный timeout, чтобы джоб падал и рестартовал, а не висел часами.</li></ol>`],
+[2,"Как устроена загрузка данных для обучения, чтобы GPU не простаивали",`<ul><li>Заранее токенизированные и упакованные данные (sequence packing с масками документов, varlen FlashAttention), а не токенизация на лету.</li><li>Шардированные форматы для стриминга: WebDataset, MosaicML Streaming, Parquet/Arrow; каждый ранг читает свои шарды.</li><li>Prefetch, несколько воркеров DataLoader, pinned memory, асинхронная копия на GPU.</li><li>Хранилище: объектное (S3/Ceph) с локальным кэшем или параллельная ФС (Lustre, WEKA, VAST) для высокой агрегированной скорости.</li><li>Сохранение состояния даталоадера в чекпоинте для точного возобновления.</li></ul>`],
+]});
+
+D.push({id:"finetune",title:"Fine-tuning и RL-инфраструктура",intro:"Спросят и про ML-сторону, и про то, как это устроено на железе.",qs:[
+[1,"LoRA и QLoRA: как работают и какие параметры важны",`<p><b>LoRA</b>: веса заморожены, обучается низкоранговая добавка ΔW = B·A (ранг r). Обучаемых параметров <1%, состояния оптимизатора крошечные. Параметры: <code>r</code> (8–64), <code>alpha</code> (масштаб, обычно alpha/r ~ 1–2), target modules (все линейные слои дают лучше качество, чем только q и v), dropout, learning rate выше, чем у full FT.</p>
+<p><b>QLoRA</b>: база квантована в 4-бит NF4 (double quantization скейлов), адаптеры в BF16, paged optimizers против пиков памяти. Позволяет тюнить 70B на одной-двух GPU ценой скорости.</p>
+`],
+[2,"Как устроена инфраструктура GRPO / RL для LLM",`<p>Цикл: генерация роллаутов (G ответов на промпт) → вычисление наград → advantage внутри группы (награда минус среднее по группе, делённое на std) → шаг обновления политики → синхронизация весов в движок генерации.</p>
+<ul><li>Генерация занимает большую часть времени, поэтому её делают на vLLM или SGLang, а не на HF generate.</li><li><b>Colocated</b>: обучение и генерация на одних GPU по очереди, движок засыпает и освобождает память (sleep mode). Проще, меньше GPU.</li><li><b>Disaggregated / async</b>: отдельные пулы для генерации и обучения, работают параллельно; политика генерации отстаёт на шаг (off-policy), нужна коррекция.</li><li>Синхронизация весов после каждого шага: NCCL broadcast или CUDA IPC, для больших моделей это заметное время.</li><li>Проблема длинного хвоста: самые длинные роллауты задерживают весь батч.</li><li>GRPO без critic-модели, это экономит память против PPO.</li></ul>
+<p>Фреймворки: verl, OpenRLHF, TRL, slime.</p>`],
+[2,"Кейс: GRPO для DevOps-задач — как собрать датасет, награду и оценку",`<ul><li><b>Датасет</b>: задачи с проверяемым результатом: Kubernetes-манифесты, Helm, Terraform, CI-пайплайны, команды kubectl, разбор ошибок деплоя. Источники: внутренние тикеты, runbook'и, инциденты, синтетика с фильтрацией.</li><li><b>Reward</b>: rule-based и проверяемый: парсинг и валидация схемы, линтеры (kubeconform, tflint), <code>--dry-run</code>, совпадение ключевых полей с эталоном, штрафы за небезопасные паттерны.</li><li><b>Оценка</b>: отложенный набор задач, доля валидных решений у базовой модели против дообученной, side-by-side.</li><li><b>Проблемы</b>: reward hacking (модель проходит проверку формы, не решая задачу), награду приходится ужесточать; нестабильность RL; стоимость роллаутов.</li><li><b>Инфра</b>: где идёт генерация роллаутов (colocated с обучением или отдельно), сколько GPU, сколько времени занимает.</li></ul>`],
+[2,"SFT, DPO, GRPO: когда что использовать",`<ul><li><b>SFT</b>: есть хорошие примеры ответов. Учит формату и стилю, дёшево и стабильно.</li><li><b>DPO</b> и родственные: есть пары «лучше / хуже». Без reward-модели и без генерации в цикле, офлайн.</li><li><b>GRPO / RL с проверяемой наградой</b>: результат можно проверить программно (код проходит тесты, манифест валиден, ответ совпадает). Модель исследует и улучшается сверх примеров, но дороже и менее стабильно.</li></ul>
+<p>Типовой пайплайн: SFT для старта, затем RL на проверяемых задачах.</p>`],
+[1,"Как организован пайплайн от обучения до прода",`<ol><li>Данные версионируются (DVC, lakeFS, снапшоты в S3).</li><li>Обучение запускается как джоб в кластере (Kueue, Kubeflow Training Operator, Ray) с трекингом экспериментов (MLflow, W&B).</li><li>Автоматические эвалы на фиксированных наборах, сравнение с текущей прод-моделью.</li><li>Регистрация в model registry: веса, конфиг, результаты эвалов, лицензия.</li><li>Конвертация и квантизация, нагрузочный тест в целевом движке.</li><li>Canary через gateway, онлайн-метрики и фидбек, затем полный rollout.</li></ol>`],
+]});
+
+D.push({id:"storage",title:"Хранилище и данные",intro:"Короткий блок, но вопросы про чекпоинты и загрузку весов встречаются часто.",qs:[
+[1,"Какое хранилище нужно AI-кластеру",`<ul><li><b>Объектное</b> (S3, Ceph RGW, MinIO): датасеты, чекпоинты, model registry. Дёшево, масштабируется, высокая латентность.</li><li><b>Параллельная ФС</b> (Lustre, WEKA, VAST, GPFS): высокая агрегированная пропускная способность для обучения и одновременной записи чекпоинтов сотнями нод.</li><li><b>Локальные NVMe</b> на нодах: кэш весов для инференса, быстрый буфер для асинхронных чекпоинтов, скретч.</li></ul>`],
+[2,"Сколько весит чекпоинт обучения и как его быстро писать",`<p>Полное состояние с Adam ~16 байт/параметр: 70B → ~1.1 TB. Только веса в BF16 — 140 GB.</p>
+<p>Если 256 GPU пишут 1.1 TB в хранилище на 20 GB/s, это ~55 секунд простоя на каждый чекпоинт. Поэтому: шардированная параллельная запись (каждый ранг пишет свой шард), асинхронное сохранение (копия в CPU-память, обучение продолжается, запись в фоне), двухуровневая схема «локальный NVMe → объектное хранилище».</p>`],
+]});
+D.push({id:"observability",title:"Наблюдаемость и надёжность",intro:"Как ты понимаешь, что платформа здорова, и как быстро находишь, что сломалось.",qs:[
+[1,"Какие SLO ты бы поставил для внутренней LLM-платформы",`<ul><li>Доступность API: 99.5–99.9% успешных ответов (без учёта 4xx клиента).</li><li>TTFT p95 по классам: интерактивный чат < 1–2 с при типичном промпте; для длинных контекстов отдельный SLO.</li><li>ITL p95 < 50–80 мс (быстрее скорости чтения человеком).</li><li>Для агентов: полное время шага агента, доля успешных tool calls.</li></ul>
+<p>SLO по классам нагрузки, а не один на всё: батч-запросы могут ждать, интерактив — нет. Error budget решает, когда тормозить релизы.</p>`],
+[2,"Как построен мониторинг от железа до пользователя",`<ol><li><b>Железо</b>: DCGM exporter (SM active, tensor active, DRAM active, power, temp, XID, ECC, NVLink/PCIe throughput).</li><li><b>Нода и k8s</b>: node exporter, kube-state-metrics, события, рестарты подов.</li><li><b>Движок</b>: метрики vLLM (очередь, KV, TTFT, ITL, preemptions, prefix hits).</li><li><b>Gateway</b>: запросы, ошибки по кодам, токены и стоимость по пользователям и моделям, срабатывания guardrails, fallback'и.</li><li><b>Продукт</b>: активные пользователи, фидбек, успешность агентских флоу.</li><li>Трейсинг запроса сквозь gateway → роутер → реплику (OpenTelemetry), логи с request id.</li></ol>`],
+[2,"Расскажи про инцидент, который ты разбирал",`<p>Подготовь одну реальную историю по структуре постмортема:</p>
+<ol><li>Что увидели пользователи и как обнаружили (алерт или жалоба).</li><li>Как локализовали: какие метрики смотрели, какие гипотезы отбросили.</li><li>Корневая причина.</li><li>Немедленное исправление.</li><li>Системное исправление: алерт, тест, автоматизация, чтобы не повторилось.</li></ol>
+<div class="trap">Почти наверняка спросят «расскажи про худший инцидент». Ответ «у нас не было инцидентов» звучит как отсутствие опыта. Возьми реальный: падение ноды, OOM после смены модели, деградация после обновления драйвера, забитый KV cache в пик.</div>`],
+]});
+
+D.push({id:"capacity",title:"Capacity planning и экономика",intro:"Здесь будь готов посчитать экономику кластера и защитить каждую цифру и показать, как планируешь рост.",qs:[
+[1,"Как посчитать стоимость токена на своём кластере",`<p>TCO в год = амортизация железа (CapEx / срок, обычно 3 года) + OpEx (электричество с PUE, колокейшн, сеть, обслуживание, люди). Делится на число обработанных токенов в год.</p>
+<p>Пример на условных цифрах: 64 H100 по $30k = $1.92M, амортизация на 3 года — $640k/год; электричество с PUE, колокейшн, сеть и обслуживание — ещё ~$200k/год. Итого ~$840k/год. При 10 млрд токенов в сутки (3.65 трлн в год) это ~$0.23 за 1M токенов с амортизацией и ~$0.05 после неё. Дальше то же самое считают для API сопоставимой модели и для аренды GPU и сравнивают.</p>
+<div class="trap">Сразу оговори допущения: сравнение корректно при сопоставимом качестве моделей; в OpEx не включены зарплаты команды; стоимость токена зависит от утилизации, при простое она растёт. Интервьюер оценит, что ты сам называешь слабые места расчёта.</div>`],
+[2,"Как спланировать рост числа пользователей в 10 раз?",`<ol><li><b>Не линейно</b>: новые пользователи в основном не-разработчики, у них меньше токенов на человека. Смоделировать по когортам текущих пользователей.</li><li>Определить пиковую нагрузку (прайм-тайм), а не среднюю.</li><li>Посчитать «наивную» потребность: допустим, сейчас ~40 пользователей на 4-GPU ноду; при 10 000 пользователей это ~250 нод, ~1000 GPU. Это слишком дорого, значит нужны рычаги эффективности.</li><li><b>Рычаги</b> в порядке стоимости внедрения: FP8 веса и KV; prefix caching + KV-aware роутинг; роутинг лёгких запросов на маленькие модели; оптимизация промптов агентов (контекст — главный потребитель); спекулятивный декодинг для интерактива; disaggregated prefill/decode; новое поколение железа (H200/B200 — больше памяти и BW на GPU).</li><li>Разнести интерактив и батч по времени суток.</li><li>Решение «купить или арендовать под пик»: базу на своём железе, пики — облако.</li></ol>
+<div class="exp">Типичный кейс для системного дизайна. Проговори его вслух заранее.</div>`],
+[2,"Свой кластер против облака: когда что выгоднее",`<ul><li><b>Своё железо</b>: стабильная высокая загрузка (60%+), горизонт 2–3 года, есть команда эксплуатации, требования к данным (всё внутри). Даёт 4–20× дешевле за токен.</li><li><b>Аренда GPU</b>: неопределённый спрос, эксперименты, пики, быстрый доступ к новому поколению.</li><li><b>API</b>: малый объём, нужны закрытые frontier-модели, нет команды.</li></ul>
+<p>Риски своего железа: морально стареет (каждое поколение даёт в разы больше токенов на ватт), простой в пустые часы, сроки поставок, отказы железа на вас.</p>`],
+]});
+
+D.push({id:"design",title:"Системный дизайн",intro:"Скорее всего будет одна большая задача на 30–40 минут. Структура ответа: требования → оценка нагрузки → архитектура → узкие места → эксплуатация → стоимость.",qs:[
+[2,"Спроектируй платформу инференса LLM для 10 000 сотрудников",`<p><b>1. Требования.</b> Сценарии (чат, агенты, код-ассистент, батч), модели (большая, средняя, маленькая, эмбеддинги), SLO по TTFT/ITL по классам, данные не покидают периметр, аудит.</p>
+<p><b>2. Оценка.</b> Пиковая конкурентность, токены в секунду на вход и выход, профиль длин. От этого число GPU на каждую модель.</p>
+<p><b>3. Архитектура.</b></p>
+<ul><li>Gateway: SSO, ключи, квоты по токенам, guardrails, аудит, биллинг по командам.</li><li>Роутер: выбор модели (по классу задачи), KV/prefix-aware выбор реплики, fallback.</li><li>Пулы моделей на vLLM/SGLang в k8s: FP8, TP под модель, реплики через DP, LWS для multi-node.</li><li>Многоуровневый KV cache (HBM → DRAM → NVMe).</li><li>Автоскейлинг по очереди и KV, приоритеты интерактив > батч, батч в off-peak.</li><li>Хранилище весов: registry + кэш на NVMe нод.</li></ul>
+<p><b>4. Узкие места.</b> Prefill длинных контекстов агентов, KV-память, cold start, горячие модели.</p>
+<p><b>5. Эксплуатация.</b> Мониторинг от DCGM до фидбека, canary-релизы моделей, health-checks нод, дежурства.</p>
+<p><b>6. Стоимость.</b> Стоимость 1M токенов, план закупок, рычаги эффективности.</p>`],
+[3,"Спроектируй кластер для обучения модели на 512 GPU",`<ul><li><b>Железо</b>: 64 ноды HGX по 8 H100/H200, NVSwitch внутри ноды, 8×400G InfiniBand (или RoCE с lossless-настройкой) на ноду, rail-optimized fat-tree без переподписки.</li><li><b>Хранилище</b>: параллельная ФС для данных и чекпоинтов с агрегированной скоростью десятки-сотни GB/s, локальные NVMe для асинхронных чекпоинтов, объектное хранилище для архива.</li><li><b>Планирование</b>: Slurm или Kubernetes с Kueue/Volcano, gang scheduling, топологически-осознанное размещение (ноды в одном pod сети).</li><li><b>Параллелизм</b>: TP=8 внутри ноды, PP между нодами по необходимости, FSDP/DP снаружи.</li><li><b>Надёжность</b>: health-check перед стартом (dcgmi diag, nccl-tests), горячий резерв нод, асинхронные чекпоинты по формуле Young/Daly, авто-рестарт.</li><li><b>Наблюдаемость</b>: MFU, время шага, stragglers, сетевые ошибки.</li></ul>`],
+[2,"Спроектируй агентскую платформу с изолированным исполнением кода",`<ul><li>Оркестратор агентов (флоу как граф), состояние сессии, память, лимиты шагов и стоимости.</li><li>Инструменты через единый слой (MCP-подобный) с авторизацией от имени пользователя, а не сервисного аккаунта.</li><li>Песочницы: эфемерные контейнеры или microVM (gVisor, Kata, Firecracker), без доступа к сети по умолчанию, лимиты CPU/памяти/времени, пре-прогретый пул для быстрого старта.</li><li>Git-доступ с ограничениями: только свои ветки, merge request вместо пуша в защищённые ветки.</li><li>Контекст: RAG по внутренним источникам с учётом прав доступа пользователя (ACL на уровне документов).</li><li>Защита от индиректной prompt injection из данных и инструментов.</li><li>Аудит всех действий, трейсинг флоу, метрики успешности.</li></ul>
+<div class="exp">Рассказывай по этой схеме и отдельно отмечай, что обязательно для первой версии, а что можно добавить позже.</div>`],
+]});
+
+D.push({id:"troubleshoot",title:"Разбор проблем",intro:"Классический формат: «вот симптом, что будешь делать». Важна последовательность проверки, от дешёвых гипотез к дорогим.",qs:[
+[2,"TTFT вырос в разы в прайм-тайм, ITL нормальный. Что проверяешь?",`<ol><li>Очередь: <code>num_requests_waiting</code> растёт → не хватает реплик или конкурентности, запросы ждут.</li><li>Длины промптов: не пришёл ли новый сценарий с огромным контекстом.</li><li>Prefix cache hit rate упал → поменялся системный промпт, роутинг разбросал сессии, кэш вытесняется из-за нехватки памяти.</li><li>Неравномерность по репликам: одна перегружена, остальные свободны → балансировка.</li><li>Guardrails на gateway: латентность проверок входа добавляется к TTFT.</li><li>Бюджет chunked prefill слишком мал для длинных промптов.</li></ol>`],
+[2,"ITL скачет, пользователи видят «заикание» стриминга",`<ol><li>Длинные prefill без chunking блокируют decode → включить или уменьшить <code>max_num_batched_tokens</code>.</li><li>Вытеснения из-за заполненного KV → <code>num_preemptions</code>; снизить <code>max_num_seqs</code>, FP8 KV.</li><li>Слишком большой батч → каждый шаг дольше.</li><li>CPU-узкое место: детокенизация, guided decoding, планировщик. Проверить загрузку CPU процесса движка, NUMA-привязку.</li><li>Сеть и gateway: буферизация стрима на прокси (выключить буферизацию для SSE).</li><li>Троттлинг GPU по температуре или питанию.</li></ol>`],
+[2,"После добавления новых нод производительность на них ниже, чем на старых",`<ul><li><code>nvidia-smi -q</code>: PCIe link width и generation (x8 или Gen4 вместо x16 Gen5 — плохо сидящая карта, BIOS).</li><li><code>nvidia-smi topo -m</code>: другая топология, NVLink не видит пары, GPU на другом NUMA.</li><li>Throttle reasons, power limit, температура, режим охлаждения.</li><li>Версии драйвера, CUDA, прошивки, настройки BIOS (NUMA per socket, IOMMU, ACS).</li><li>ECC и remapped rows.</li><li>Прогнать <code>nccl-tests</code> и <code>dcgmi diag</code>, сравнить с эталонной нодой.</li></ul>`],
+[1,"vLLM падает с OOM при старте",`<ul><li><code>max_model_len</code> больше, чем влезает хотя бы одна последовательность в KV после весов.</li><li><code>gpu_memory_utilization</code> высокий, а на GPU уже есть другой процесс (другой под, зомби-процесс, MPS).</li><li>Большой <code>max_num_batched_tokens</code> раздувает пиковые активации при профилировании.</li><li>CUDA graphs занимают память: уменьшить набор захватываемых размеров или проверить с <code>--enforce-eager</code>.</li><li>TP слишком мал для модели.</li></ul>`],
+[2,"Модель после обновления стала отвечать хуже. Инфраструктура или модель?",`<ul><li>Что поменялось: версия движка, квантизация, chat template, tokenizer, параметры сэмплинга по умолчанию, парсер tool calling.</li><li>Прогнать фиксированный эвал-набор на старой и новой конфигурации с детерминированным сэмплингом.</li><li>Сравнить логиты или ответы на одинаковых промптах между BF16 и квантованной версией.</li><li>Частая причина — chat template: новая версия движка или модели иначе форматирует системный промпт или инструменты.</li><li>Откат через gateway на прежнюю конфигурацию, пока разбираемся.</li></ul>`],
+]});
+
+D.push({id:"rapid",title:"Блиц: короткие ответы",intro:"Быстрые вопросы, на которые надо отвечать за 1–2 предложения.",qs:[
+[1,"Зачем GQA?",`<p>Сократить KV cache в число групп раз при почти том же качестве, чтобы держать больше последовательностей на GPU.</p>`],
+[1,"Что быстрее для decode: H100 или H200 и почему?",`<p>H200: те же вычисления, но 4.8 TB/s против 3.35 TB/s и 141 GB. Decode memory-bound, поэтому ~1.4× быстрее и больше места под KV.</p>`],
+[1,"Почему BF16, а не FP16 в обучении?",`<p>У BF16 8 бит экспоненты, как у FP32, диапазон тот же, переполнения нет и loss scaling не нужен. Точность мантиссы ниже, но для обучения это приемлемо.</p>`],
+[1,"Почему TP держат внутри ноды?",`<p>Два all-reduce активаций на каждый слой. Через NVLink это сотни GB/s, через межнодовую сеть на порядок медленнее и латентнее.</p>`],
+[1,"Что такое goodput?",`<p>Пропускная способность только по запросам, уложившимся в SLO. Правильная метрика вместо «сырого» throughput.</p>`],
+[1,"Что такое HFU и чем отличается от MFU?",`<p>HFU учитывает все выполненные FLOPs, включая пересчёт активаций при checkpointing. MFU — только полезные FLOPs модели, поэтому MFU ≤ HFU и честнее для сравнения.</p>`],
+[1,"Что даёт FP8 KV cache и чем рискуешь?",`<p>Вдвое больше токенов в KV, выше конкурентность. Риск — небольшая потеря точности на длинных контекстах, проверять на long-context эвалах.</p>`],
+[1,"Зачем sleep mode в vLLM?",`<p>Освобождает память GPU (выгружает веса и сбрасывает KV), не убивая процесс. Нужен для RL в colocated режиме и для переключения GPU между задачами без долгого старта.</p>`],
+[1,"Что такое gang scheduling?",`<p>Все поды распределённого джоба планируются одновременно или не планируются вовсе. Иначе частично запущенные джобы держат ресурсы и блокируют друг друга.</p>`],
+[1,"Зачем нужен NVLS / SHARP?",`<p>Редукция выполняется в свитче (NVSwitch или IB-свитч), а не на GPU. Меньше трафика и латентность коллективов, особенно all-reduce.</p>`],
+[1,"В чём смысл online softmax?",`<p>Считать softmax потоково по тайлам, храня текущий максимум и сумму и пересчитывая их. Позволяет не держать всю строку attention в памяти, на этом построен FlashAttention.</p>`],
+[1,"Почему cold start LLM-реплики измеряется минутами?",`<p>Скачать образ, загрузить десятки-сотни GB весов, профилировать память, выделить KV, захватить CUDA graphs, прогреть. Каждое из этого — секунды или десятки секунд.</p>`],
+]});
+
+D.push({id:"ask",title:"Вопросы интервьюеру",intro:"Задай 2–3 в конце. Хороший вопрос показывает, что ты думаешь как владелец инфраструктуры.",qs:[
+[1,"Что спросить у интервьюера на инфраструктурной секции",`<ul><li>Какое сейчас соотношение инференса и обучения на кластере и как оно будет меняться?</li><li>Своё железо или облако, и какая стратегия по следующему поколению GPU?</li><li>Как устроены планирование и приоритеты GPU между командами? Какие главные конфликты за ресурсы?</li><li>Какая метрика эффективности инфраструктуры важна для руководства: стоимость токена, утилизация, время до прода модели?</li><li>Какая самая болезненная проблема в инфраструктуре сейчас, которую вы хотели бы, чтобы новый человек решил в первые полгода?</li><li>Как устроены дежурства и какой процент времени команды уходит на эксплуатацию против развития?</li></ul>`],
+]});
+(function(){
+  const KEY="aiinfra-prep-marks-v1";
+  let marks={};
+  try{marks=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){marks={}}
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(marks))}catch(e){}};
+  const LV={1:"база",2:"глубже",3:"хардкор"};
+  const main=document.getElementById("main"), side=document.getElementById("side");
+  let filter="all", query="";
+  const items=[];
+
+  D.forEach((b,bi)=>{
+    const sec=document.createElement("section");
+    sec.className="block"; sec.id=b.id;
+    sec.innerHTML='<h2><span class="num">'+String(bi).padStart(2,"0")+'</span><span>'+b.title+'</span></h2>'+(b.intro?'<p class="intro">'+b.intro+'</p>':'')+(b.table||'');
+    b.qs.forEach((x,qi)=>{
+      const id=b.id+"-"+qi;
+      const d=document.createElement("details");
+      d.className="qa"; d.dataset.id=id;
+      d.innerHTML='<summary><span class="lvl l'+x[0]+'">'+LV[x[0]]+'</span><span class="q">'+x[1]+'</span></summary><div class="ans">'+x[2]+'</div><div class="marks"><button type="button" data-m="know">Знаю</button><button type="button" data-m="again">Повторить</button></div>';
+      d.querySelector(".marks").addEventListener("click",e=>{
+        const m=e.target.dataset&&e.target.dataset.m; if(!m)return;
+        if(marks[id]===m)delete marks[id]; else marks[id]=m;
+        save(); paint(d,id); refresh();
+      });
+      sec.appendChild(d);
+      items.push({id,el:d,block:b.id,text:(x[1]+" "+x[2]).toLowerCase().replace(/<[^>]+>/g," ")});
+      paint(d,id);
+    });
+    main.appendChild(sec);
+    const a=document.createElement("a");
+    a.href="#"+b.id; a.dataset.block=b.id;
+    a.innerHTML='<span>'+b.title+'</span><span class="n"></span>';
+    side.appendChild(a);
+  });
+  const empty=document.createElement("p"); empty.className="empty"; empty.textContent="Ничего не найдено. Сбрось поиск или фильтр."; empty.hidden=true; main.appendChild(empty);
+
+  function paint(d,id){
+    d.classList.toggle("m-know",marks[id]==="know");
+    d.classList.toggle("m-again",marks[id]==="again");
+    d.querySelectorAll(".marks button").forEach(btn=>{
+      const on=marks[id]===btn.dataset.m;
+      btn.className=on?"on-"+btn.dataset.m:"";
+      btn.setAttribute("aria-pressed",on);
+    });
+  }
+  function visible(it){
+    if(query&&!it.text.includes(query))return false;
+    if(filter==="new"&&marks[it.id])return false;
+    if(filter==="again"&&marks[it.id]!=="again")return false;
+    return true;
+  }
+  function refresh(){
+    let shown=0;
+    const per={};
+    items.forEach(it=>{
+      const v=visible(it); it.el.hidden=!v; if(v)shown++;
+      per[it.block]=per[it.block]||{t:0,k:0,v:0};
+      per[it.block].t++; if(marks[it.id]==="know")per[it.block].k++; if(v)per[it.block].v++;
+    });
+    D.forEach(b=>{
+      const sec=document.getElementById(b.id);
+      sec.hidden=per[b.id].v===0 && (query||filter!=="all");
+      const a=side.querySelector('[data-block="'+b.id+'"]');
+      a.querySelector(".n").textContent=per[b.id].k+"/"+per[b.id].t;
+      a.classList.toggle("done",per[b.id].k===per[b.id].t);
+    });
+    empty.hidden=shown>0;
+    const total=items.length, k=items.filter(i=>marks[i.id]==="know").length, ag=items.filter(i=>marks[i.id]==="again").length;
+    document.getElementById("stats").innerHTML='<span>Вопросов <b>'+total+'</b></span><span>Знаю <b>'+k+'</b></span><span>Повторить <b>'+ag+'</b></span><span>Без отметки <b>'+(total-k-ag)+'</b></span>';
+    const bar=document.getElementById("bar");
+    bar.querySelector(".k").style.width=(k/total*100)+"%";
+    bar.querySelector(".a").style.width=(ag/total*100)+"%";
+  }
+  const fb={all:"f-all",new:"f-new",again:"f-again"};
+  Object.keys(fb).forEach(f=>document.getElementById(fb[f]).addEventListener("click",()=>{
+    filter=f; Object.keys(fb).forEach(g=>document.getElementById(fb[g]).setAttribute("aria-pressed",g===f)); refresh();
+  }));
+  document.getElementById("q").addEventListener("input",e=>{query=e.target.value.trim().toLowerCase(); refresh();});
+  document.getElementById("reset").addEventListener("click",()=>{
+    if(!Object.keys(marks).length)return;
+    if(!confirm("Сбросить все отметки «Знаю» и «Повторить»?"))return;
+    marks={}; save();
+    items.forEach(it=>paint(it.el,it.id));
+    refresh();
+  });
+  const tg=document.getElementById("toggle");
+  tg.addEventListener("click",()=>{
+    const open=tg.textContent==="Раскрыть все";
+    items.forEach(it=>{if(!it.el.hidden)it.el.open=open});
+    tg.textContent=open?"Свернуть все":"Раскрыть все";
+  });
+  document.getElementById("rand").addEventListener("click",()=>{
+    let pool=items.filter(i=>!i.el.hidden&&marks[i.id]!=="know");
+    if(!pool.length)pool=items.filter(i=>!i.el.hidden);
+    if(!pool.length)return;
+    const it=pool[Math.floor(Math.random()*pool.length)];
+    items.forEach(i=>i.el.open=false);
+    it.el.open=false;
+    it.el.scrollIntoView({behavior:"smooth",block:"center"});
+    it.el.querySelector("summary").focus({preventScroll:true});
+  });
+  refresh();
+})();
+</script>
+
+</body></html>
